@@ -1,40 +1,57 @@
 import axios from 'axios'
 
-type CatalogNumber = {
+export type CatalogNumber = {
     base: number
     extension?: string
 }
 
-type SectionConfig = {
+export type Quarter = 'spring' | 'summer' | 'winter' | 'fall'
+
+export interface SectionIdentifier {
     year: number
-    quarter: 'spring' | 'summer' | 'winter' | 'fall'
+    quarter: Quarter
     subjectArea: string
     catalogNumber: CatalogNumber
     sectionNumber: number
 }
 
-type Status = {
-    seats: number
-    occupied: number
+export type QueueStatus = {
+    size: number
+    filled: number
 }
 
-type SectionStatus = {
-    enrollment: Status
-    waitlist: Status | null
-} | null
+export type SectionStatus = {
+    enrollment: QueueStatus
+    waitlist: QueueStatus | null
+}
 
-export function configToParams(config: SectionConfig) {
-    const abbrevMap = {
-        spring: 'S',
-        fall: 'F',
-        winter: 'W',
-        summer: '1'
-    }
+export enum SectionAction {
+    ENROLL = 0,
+    WAITLIST = 1,
+    NONE = 2,
+    UNKNOWN = 'UNKOWN'
+}
 
-    const { year, quarter, subjectArea, catalogNumber, sectionNumber } = config
+export const QuarterAbbrevvMap = {
+    spring: 'S',
+    fall: 'F',
+    winter: 'W',
+    summer: '1'
+}
+
+export const AbbrevQuarterMapping: Record<string, Quarter> = {
+    S: 'spring',
+    F: 'fall',
+    W: 'winter',
+    '1': 'summer'
+}
+
+export function identifierToParams(identifier: SectionIdentifier) {
+    const { year, quarter, subjectArea, catalogNumber, sectionNumber } =
+        identifier
 
     return {
-        t: String(year) + abbrevMap[quarter],
+        t: String(year) + QuarterAbbrevvMap[quarter],
         sBy: 'subject',
         subj_area_cd: subjectArea,
         crs_catlg_no:
@@ -44,14 +61,22 @@ export function configToParams(config: SectionConfig) {
     }
 }
 
-export function extractEnrolled(html: string): Status {
+export function sectionAsString(identifier: SectionIdentifier) {
+    const { year, quarter, subjectArea, catalogNumber, sectionNumber } =
+        identifier
+    return `${year}${QuarterAbbrevvMap[quarter]} ${subjectArea} ${
+        catalogNumber.base
+    }${catalogNumber.extension ?? ''} (${sectionNumber})`
+}
+
+export function extractEnrolled(html: string): QueueStatus {
     let matchResult
     matchResult = html.match(/(\d*) of (\d*) Enrolled/)
 
     if (matchResult) {
         return {
-            occupied: Number(matchResult[1]),
-            seats: Number(matchResult[2])
+            filled: Number(matchResult[1]),
+            size: Number(matchResult[2])
         }
     }
 
@@ -59,8 +84,8 @@ export function extractEnrolled(html: string): Status {
 
     if (matchResult) {
         return {
-            occupied: Number(matchResult[1]),
-            seats: Number(matchResult[1])
+            filled: Number(matchResult[1]),
+            size: Number(matchResult[1])
         }
     }
 
@@ -69,14 +94,14 @@ export function extractEnrolled(html: string): Status {
     throw new Error('could not find enrollment status')
 }
 
-export function extractWaitlist(html: string): Status | null {
+export function extractWaitlist(html: string): QueueStatus | null {
     let matchResult
 
     matchResult = html.match(/(\d*) of (\d*) Taken/)
     if (matchResult) {
         return {
-            occupied: Number(matchResult[1]),
-            seats: Number(matchResult[2])
+            filled: Number(matchResult[1]),
+            size: Number(matchResult[2])
         }
     }
 
@@ -95,9 +120,9 @@ export function isClosed(html: string) {
 }
 
 export async function fetchSectionStatus(
-    config: SectionConfig
-): Promise<SectionStatus> {
-    const params = configToParams(config)
+    identifier: SectionIdentifier
+): Promise<SectionStatus | null> {
+    const params = identifierToParams(identifier)
 
     const { data: htmlContent } = await axios.get<string>(
         'https://sa.ucla.edu/ro/public/soc/Results',
@@ -111,4 +136,17 @@ export async function fetchSectionStatus(
               enrollment: extractEnrolled(htmlContent),
               waitlist: extractWaitlist(htmlContent)
           }
+}
+
+export function currentSectionAction(status: SectionStatus): SectionAction {
+    if (!status) return SectionAction.NONE
+
+    const { enrollment, waitlist } = status
+    if (enrollment.filled < enrollment.size) return SectionAction.ENROLL
+
+    if (!waitlist) return SectionAction.NONE
+
+    if (waitlist.filled < waitlist.size) return SectionAction.WAITLIST
+
+    return SectionAction.NONE
 }
