@@ -1,12 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const discord_js_1 = require("discord.js");
-require("dotenv/config");
-// Create a new client instance
-const client = new discord_js_1.Client({ intents: [discord_js_1.Intents.FLAGS.GUILDS] });
-// When the client is ready, run this code (only once)
-client.once('ready', () => {
-    console.log('Ready!');
-});
-// Login to Discord with your client's token
-client.login(process.env.DISCORD_BOT_TOKEN);
+const status_1 = require("./status");
+(0, status_1.fetchSectionStatus)({
+    year: 22,
+    quarter: 'spring',
+    subjectArea: 'STATS',
+    catalogNumber: {
+        base: 20,
+    },
+    sectionNumber: 2
+}).then(console.log);
+//# sourceMappingURL=index.js.map
