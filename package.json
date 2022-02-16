@@ -14,9 +14,9 @@
     "nodemon": "^2.0.15"
   },
   "scripts": {
-    "start": "node dist/index.js",
-    "deploy-commands": "node dist/deploy.js",
-    "dev": "nodemon dist/index.js",
+    "start": "node dist/v1/index.js",
+    "deploy-commands": "node dist/v1/deploy.js",
+    "dev": "nodemon dist/v1/index.js",
     "build": "tsc -p tsconfig.json",
     "watch": "tsc -p tsconfig.json -w"
   },

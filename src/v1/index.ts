@@ -37,16 +37,22 @@ client.on('interactionCreate', async (interaction) => {
                 const identifier = toIdentifier(term, course, section)
 
                 tracker.addSection(identifier)
-                interaction.reply(`Added ${sectionAsString(identifier)} to tracked classes`)
+                interaction.reply(
+                    `Added ${sectionAsString(identifier)} to tracked classes`
+                )
             } catch (e) {
                 interaction.reply(e.message)
             }
             break
         case 'show':
             interaction.reply('Here ya go!')
-            tracker.trackedSections.forEach(section => {
-                const {channel} = interaction
-                channel?.send(`${sectionAsString(section.identifier)}: ${section.status && currentSectionAction(section.status)}`)
+            tracker.trackedSections.forEach((section) => {
+                const { channel } = interaction
+                channel?.send(
+                    `${sectionAsString(section.identifier)}: ${
+                        section.status && currentSectionAction(section.status)
+                    }`
+                )
             })
             break
         case 'reset':

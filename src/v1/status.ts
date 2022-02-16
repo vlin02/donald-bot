@@ -29,7 +29,7 @@ export enum SectionAction {
     ENROLL = 0,
     WAITLIST = 1,
     NONE = 2,
-    UNKNOWN = 'UNKOWN'
+    UNKNOWN = 3
 }
 
 export const QuarterAbbrevvMap = {

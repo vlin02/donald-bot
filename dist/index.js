@@ -44,7 +44,7 @@ client.on('interactionCreate', (interaction) => __awaiter(void 0, void 0, void 0
             break;
         case 'show':
             interaction.reply('Here ya go!');
-            tracker.trackedSections.forEach(section => {
+            tracker.trackedSections.forEach((section) => {
                 const { channel } = interaction;
                 channel === null || channel === void 0 ? void 0 : channel.send(`${(0, status_1.sectionAsString)(section.identifier)}: ${section.status && (0, status_1.currentSectionAction)(section.status)}`);
             });

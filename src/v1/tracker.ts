@@ -28,7 +28,7 @@ class Tracker {
 
     constructor(
         interaction: CommandInteraction<CacheType>,
-        frequency: number = 20 * 1000
+        frequency: number = 60 * 1000
     ) {
         this.interaction = interaction
         this.frequency = frequency
