@@ -5,4 +5,4 @@ export const botClient = new Discord.Client({
     intents: [Discord.Intents.FLAGS.GUILDS]
 })
 
-botClient.login(process.env.DISCORD_BOT_TOKEN)
+botClient.login(process.env.DISCORD_BOT_AUTH_TOKEN)

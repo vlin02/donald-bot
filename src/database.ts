@@ -8,7 +8,7 @@ export async function connectToDatabase() {
     dotenv.config()
 
     const client: mongoDB.MongoClient = new mongoDB.MongoClient(
-        process.env.DB_CONN_STRING
+        process.env.MONGO_PROD_CONN_STRING
     )
 
     await client.connect()
@@ -16,10 +16,10 @@ export async function connectToDatabase() {
     const db: mongoDB.Db = client.db(process.env.DB_NAME)
 
     const ticketsCollection = db.collection<Ticket>(
-        process.env.TICKETS_COLLECTION_NAME
+        'tickets'
     ) 
 
     collections.tickets = ticketsCollection
 
-    collections.tickets.createIndex(['userId', 'sectionKey'])
+    await collections.tickets.createIndex(['userId', 'sectionKey'], {unique: true})
 }

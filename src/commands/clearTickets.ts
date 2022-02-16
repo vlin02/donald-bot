@@ -8,7 +8,7 @@ const clearTickets: CommandHandler = async (interaction) => {
         userId
     })
 
-    interaction.reply('All tracking tickets cleared!')
+    interaction.reply({content: 'All tracking tickets cleared!', ephemeral: true})
 }
 
 export default clearTickets

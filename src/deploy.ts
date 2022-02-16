@@ -1,12 +1,11 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { REST } from '@discordjs/rest'
 import { Routes } from 'discord-api-types/v9'
-import * as Dotenv from 'dotenv'
+import 'dotenv/config'
 
 async function main() {
-    Dotenv.config()
 
-    const { DISCORD_BOT_TOKEN, DISCORD_CLIENT_ID, DISCORD_GUILD_ID } =
+    const { DISCORD_BOT_AUTH_TOKEN, DISCORD_BOT_CLIENT_ID, DISCORD_DEV_GUILD_ID } =
         process.env
 
     const commands = [
@@ -24,10 +23,10 @@ async function main() {
             .setDescription('Clear your tickets')
     ].map((command) => command.toJSON())
 
-    const rest = new REST({ version: '9' }).setToken(DISCORD_BOT_TOKEN)
+    const rest = new REST({ version: '9' }).setToken(DISCORD_BOT_AUTH_TOKEN)
 
     await rest.put(
-        Routes.applicationGuildCommands(DISCORD_CLIENT_ID, DISCORD_GUILD_ID),
+        Routes.applicationGuildCommands(DISCORD_BOT_CLIENT_ID, DISCORD_DEV_GUILD_ID),
         { body: commands }
     )
 

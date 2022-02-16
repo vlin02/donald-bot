@@ -3,7 +3,7 @@ import { collections } from '../database'
 import { CommandHandler } from '../types'
 
 const showTickets: CommandHandler = async (interaction) => {
-    await interaction.deferReply()
+    await interaction.deferReply({ephemeral: true})
 
     const userId = interaction.user.id
 
@@ -18,9 +18,9 @@ const showTickets: CommandHandler = async (interaction) => {
             `${ticket.sectionKey}: ${inferSectionAction(ticket.status).value}`
     )
 
-    const reply = ticketMessages.length ? ticketMessages.join('\n') : 'You have no tickets!'
+    const content = ticketMessages.length ? ticketMessages.join('\n') : 'You have no tickets!'
 
-    interaction.editReply(reply)
+    interaction.editReply(content)
 }
 
 export default showTickets
