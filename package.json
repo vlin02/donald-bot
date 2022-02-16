@@ -1,5 +1,5 @@
 {
-  "name": "enroll-bot",
+  "name": "donald-bot",
   "version": "1.0.0",
   "exports": "./dist/index.js",
   "license": "MIT",
@@ -9,16 +9,16 @@
     "axios": "^0.26.0",
     "discord.js": "^13.6.0",
     "dotenv": "^16.0.0",
-    "mongoose": "^6.2.1",
+    "mongodb": "^4.3.1",
     "node-fetch": "^3.2.0",
     "nodemon": "^2.0.15"
   },
   "scripts": {
-    "start": "node dist/v1/index.js",
-    "deploy-commands": "node dist/v1/deploy.js",
-    "dev": "nodemon dist/v1/index.js",
+    "start": "node dist/index.js",
+    "deploy": "node dist/deploy.js",
+    "dev": "nodemon dist/index.js --watch dist",
     "build": "tsc -p tsconfig.json",
-    "watch": "tsc -p tsconfig.json -w"
+    "watch": "tsc -p tsconfig.json --clean -w"
   },
   "devDependencies": {
     "@types/node": "^17.0.18",
