@@ -25,7 +25,10 @@ export async function main() {
     }
 
     botClient.once('ready', () => {
-        setInterval(updateTickets, Number(STATUS_UPDATE_INTERVAL) * 1000)
+        setInterval(() => {
+            logger.log('info', 'running ticket updates')
+            updateTickets()
+        }, Number(STATUS_UPDATE_INTERVAL) * 1000)
 
         logger.log(
             'info',
@@ -48,13 +51,29 @@ export async function main() {
 
         logger.log(
             'debug',
-            'received "%s" command from "%s" (%s)',
+            'running "%s" command for user "%s" (%s)',
             commandName,
             user.username,
             user.id
         )
 
-        handler(interaction)
+        try {
+            await handler(interaction)
+        } catch (e) {
+            if (!interaction.replied) {
+                 interaction.reply(
+                    [
+                        '❌ **Bot Error**',
+                        'An unexpected error has occured and has been logged'
+                    ].join('\n')
+                )
+            }
+            logger.log(
+                'error',
+                'command failed with error "%s"',
+                e.message
+            )
+        }
     })
 
     logger.log('info', 'listening for commands...')

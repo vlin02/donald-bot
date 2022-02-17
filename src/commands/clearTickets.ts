@@ -8,7 +8,7 @@ const clearTickets: CommandHandler = async (interaction) => {
         userId
     })
 
-    interaction.reply({content: 'All tracking tickets cleared!', ephemeral: true})
+    interaction.reply({content: ':white_check_mark: All tracking tickets cleared', ephemeral: true})
 }
 
 export default clearTickets

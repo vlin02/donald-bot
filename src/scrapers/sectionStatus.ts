@@ -1,26 +1,42 @@
 import axios from 'axios'
 import { ParsingError } from '../error'
 import { SectionStatus } from '../models/ticket'
+import subjectAreas from '../data/subjectAreas.json'
 
-export const SectionAction = {
+export const SectionAvailability = {
     ENROLL: {
-        value: 'enrollment open'
+        color: '3da560',
+        tag: 'open',
+        emote: ':green_square:',
+        priority: 0
     },
     WAITLIST: {
-        value: 'waitlist open'
+        color: 'f9a62b',
+        tag: 'waitlist',
+        emote: ':yellow_square:',
+        priority: 1
     },
     FULL: {
-        value: 'full/closed'
+        color: 'ec4145',
+        tag: 'full',
+        emote: ':red_square:',
+        priority: 2
+    },
+    CLOSED: {
+        tag: 'closed',
+        color: 'ec4145',
+        emote: ':red_square:',
+        priority: 3
     }
 }
 
-export function inferSectionAction(status: SectionStatus) {
-    if (status.closed) return SectionAction.FULL
-
-    if (status.enroll.filled < status.enroll.size) return SectionAction.ENROLL
-    if (status.waitlist.filled < status.waitlist.filled) return SectionAction.WAITLIST
-
-    return SectionAction.FULL
+export function inferSectionAvailability(status: SectionStatus) {
+    if (status.enroll.size === 0) return SectionAvailability.CLOSED
+    else if (status.enroll.filled < status.enroll.size)
+        return SectionAvailability.ENROLL
+    else if (status.waitlist.filled < status.waitlist.filled)
+        return SectionAvailability.WAITLIST
+    else return SectionAvailability.FULL
 }
 
 type SectionDetailParams = {
@@ -30,19 +46,35 @@ type SectionDetailParams = {
     classNumber: string
 }
 
+const subjectAreaNames = subjectAreas.map((subjectArea) => subjectArea.value)
+
 export function getSectionDetailParams(
     sectionKey: string
 ): SectionDetailParams {
     const result = sectionKey.match(
-        /^(\d{2}[WSF1]) ([A-Z ]*) (\d*)([A-Z]*) \((\d*)\)$/
+        /^(\d{2}[WSF1]) ([A-Z ]*) ([A-Z])?(\d*)([A-Z]*) \((\d*)\)$/
     )
 
     if (!result) throw new ParsingError('invalid section key')
 
-    const [_match, term, subjectArea, catalogBase, catalogExt, classNumber] =
-        result
+    const [
+        _match,
+        term,
+        subjectArea,
+        catalogPre,
+        catalogBase,
+        catalogExt,
+        classNumber
+    ] = result
 
-    const catalogNumber = catalogBase.padStart(4, '0') + catalogExt
+    if (!subjectAreaNames.includes(subjectArea))
+        throw new ParsingError('invalid subject area provided')
+
+    const catalogNumber =
+        catalogBase.padStart(4, '0') +
+        (catalogExt ?? '') +
+        (catalogPre ? ' ' + catalogPre : '')
+        
     const paddedClassNumber = ' ' + classNumber.padStart(3, '0')
 
     return {
@@ -56,14 +88,6 @@ export function getSectionDetailParams(
 export function parseHTML(html: string): SectionStatus {
     let result
 
-    result = html.match(/Closed by Dept/)
-
-    if (result) {
-        return {
-            closed: true
-        }
-    }
-
     const status: SectionStatus = {
         enroll: {
             size: 0,
@@ -72,8 +96,13 @@ export function parseHTML(html: string): SectionStatus {
         waitlist: {
             size: 0,
             filled: 0
-        },
-        closed: false
+        }
+    }
+
+    result = html.match(/Closed by Dept/)
+
+    if (result) {
+        return status
     }
 
     result = html.match(/Class Full \((\d*)\)/)
@@ -144,7 +173,9 @@ class SectionStatusScraper {
 
     async scrape(): Promise<SectionStatus> {
         const html = await this._retrieveHTML()
-        return parseHTML(html)
+        const status = parseHTML(html)
+
+        return status
     }
 }
 

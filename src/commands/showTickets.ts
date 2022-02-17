@@ -1,26 +1,26 @@
-import { inferSectionAction } from '../utils/section'
 import { collections } from '../database'
 import { CommandHandler } from '../types'
+import TicketDetail from '../views/TicketDetail'
 
 const showTickets: CommandHandler = async (interaction) => {
-    await interaction.deferReply({ephemeral: true})
+    await interaction.deferReply({ ephemeral: true })
 
     const userId = interaction.user.id
 
-    const tickets = await collections.tickets
-        ?.find({
-            userId
-        })
-        .toArray() ?? []
+    const tickets =
+        (await collections.tickets
+            ?.find({
+                userId
+            })
+            .toArray()) ?? []
 
-    const ticketMessages = tickets.map(
-        (ticket) =>
-            `${ticket.sectionKey}: ${inferSectionAction(ticket.status).value}`
-    )
+    if (tickets.length === 0) {
+        interaction.editReply(':tickets: You have no tickets')
+        return
+    }
 
-    const content = ticketMessages.length ? ticketMessages.join('\n') : 'You have no tickets!'
-
-    interaction.editReply(content)
+    const message = tickets.map(TicketDetail).join('\n\n')
+    interaction.editReply(message)
 }
 
 export default showTickets

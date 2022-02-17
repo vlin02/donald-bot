@@ -1,17 +1,12 @@
 export type QueueStatus = {
-    size: number,
+    size: number
     filled: number
 }
 
-export type SectionStatus =
-    | {
-          enroll: QueueStatus,
-          waitlist: QueueStatus,
-          closed: false
-      }
-    | {
-          closed: true
-      }
+export type SectionStatus = {
+    enroll: QueueStatus
+    waitlist: QueueStatus
+}
 
 export type Ticket = {
     userId: string
