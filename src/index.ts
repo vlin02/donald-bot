@@ -8,8 +8,9 @@ import { botClient } from './client'
 import updateTickets from './events/updateAllTickets'
 import { connectToDatabase } from './database'
 import { logger } from './log'
+import help from './commands/help'
 
-const { STATUS_UPDATE_INTERVAL, DISCORD_BOT_AUTH_TOKEN } = process.env
+const {NODE_ENV, STATUS_UPDATE_INTERVAL, DISCORD_BOT_AUTH_TOKEN } = process.env
 
 export async function main() {
     await connectToDatabase()
@@ -21,7 +22,8 @@ export async function main() {
     const commandHandlers: Record<string, CommandHandler> = {
         'add-ticket': addTicket,
         'clear-tickets': clearTickets,
-        'show-tickets': showTickets
+        'show-tickets': showTickets,
+        'help': help
     }
 
     botClient.once('ready', () => {
@@ -50,7 +52,7 @@ export async function main() {
         const handler = commandHandlers[commandName]
 
         logger.log(
-            'debug',
+            'info',
             'running "%s" command for user "%s" (%s)',
             commandName,
             user.username,
@@ -60,6 +62,8 @@ export async function main() {
         try {
             await handler(interaction)
         } catch (e) {
+            if (NODE_ENV !== 'production') throw e
+
             if (!interaction.replied) {
                  interaction.reply(
                     [

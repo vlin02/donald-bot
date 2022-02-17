@@ -1,7 +1,5 @@
 import axios from 'axios'
-import { ParsingError } from '../error'
 import { SectionStatus } from '../models/ticket'
-import subjectAreas from '../data/subjectAreas.json'
 
 type SectionDetailParams = {
     term: string
@@ -10,16 +8,14 @@ type SectionDetailParams = {
     classNumber: string
 }
 
-const subjectAreaNames = subjectAreas.map((subjectArea) => subjectArea.value)
+export const sectionKeyRegex = /^(\d{2}[WSF1]) ([A-Z ]*) ([A-Z])?(\d*)([A-Z]*) \((\d*)\)$/
 
 export function getSectionDetailParams(
     sectionKey: string
 ): SectionDetailParams {
-    const result = sectionKey.match(
-        /^(\d{2}[WSF1]) ([A-Z ]*) ([A-Z])?(\d*)([A-Z]*) \((\d*)\)$/
-    )
+    const result = sectionKey.match(sectionKeyRegex)
 
-    if (!result) throw new ParsingError('invalid section key')
+    if (!result) throw new Error('invalid section key')
 
     const [
         _match,
@@ -30,9 +26,6 @@ export function getSectionDetailParams(
         catalogExt,
         classNumber
     ] = result
-
-    if (!subjectAreaNames.includes(subjectArea))
-        throw new ParsingError('invalid subject area provided')
 
     const catalogNumber =
         catalogBase.padStart(4, '0') +
@@ -49,7 +42,7 @@ export function getSectionDetailParams(
     }
 }
 
-export function parseHTML(html: string): SectionStatus {
+export function parsePageHTML(html: string): SectionStatus {
     let result
 
     const status: SectionStatus = {
@@ -104,14 +97,14 @@ export function parseHTML(html: string): SectionStatus {
     return status
 }
 
-class SectionStatusScraper {
+export class PageRetriever {
     sectionKey: string
 
     constructor(sectionKey: string) {
         this.sectionKey = sectionKey
     }
 
-    _getRequestParams() {
+    getRequestParams() {
         const { term, subjectArea, catalogNumber, classNumber } =
             getSectionDetailParams(this.sectionKey)
 
@@ -124,26 +117,24 @@ class SectionStatusScraper {
         }
     }
 
-    async _retrieveHTML() {
+    async retrieveHTML() {
         const { data: html } = await axios.get<string>(
             'https://sa.ucla.edu/ro/public/soc/Results',
             {
-                params: this._getRequestParams()
+                params: this.getRequestParams()
             }
         )
 
         return html
     }
+}
 
-    async scrape(): Promise<SectionStatus> {
-        const html = await this._retrieveHTML()
-        const status = parseHTML(html)
-
-        return status
-    }
+export async function retrieveHTML(sectionKey: string) {
+    const retriever = new PageRetriever(sectionKey)
+    return retriever.retrieveHTML()
 }
 
 export async function scrape(sectionKey: string) {
-    const scraper = new SectionStatusScraper(sectionKey)
-    return scraper.scrape()
+    const html = await retrieveHTML(sectionKey)
+    return parsePageHTML(html)
 }

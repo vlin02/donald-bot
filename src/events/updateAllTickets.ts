@@ -31,7 +31,7 @@ export default async function updateAllTickets() {
         )
 
         logger.log(
-            'debug',
+            'info',
             'status update message sent to %s (%s) for section %s',
             user.username,
             user.id,

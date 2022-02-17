@@ -1,11 +1,16 @@
 import { collections } from '../database'
 import { CommandHandler } from '../types'
 import * as SectionStatusScraper from '../scrapers/sectionStatus'
-import { ParsingError } from '../error'
-import { MongoServerError } from 'mongodb'
-import { logger } from '../log'
 import TicketDetail from '../views/TicketDetail'
 import { Ticket } from '../models/ticket'
+
+import subjectAreas from '../data/subjectAreas.json'
+import { logger } from '../log'
+
+const subjectAreaNames = subjectAreas.map((subjectArea) => {
+    const {value} = subjectArea
+    return value.trim()
+})
 
 const addTicket: CommandHandler = async (interaction) => {
     const { options, user } = interaction
@@ -13,12 +18,38 @@ const addTicket: CommandHandler = async (interaction) => {
     const sectionName = options.getString('section') as string
     const sectionKey = sectionName.toUpperCase()
 
-    const ticketCount =
-        (await collections.tickets?.count({
-            userId: user.id
-        })) ?? 10
+    const result = sectionKey.match(SectionStatusScraper.sectionKeyRegex)
 
-    if (ticketCount >= 10) {
+    if (!result) {
+        interaction.reply({
+            content: `:x: Section **${sectionKey}** is improperly formatted`,
+            ephemeral: true
+        })
+
+        return
+    }
+
+    const subjectArea = result[2]
+    if (!subjectAreaNames.includes(subjectArea)) {
+        interaction.reply({
+            content: `:x: Subject area ${subjectArea} is not valid`,
+            ephemeral: true
+        })
+
+        return
+    }
+
+    const [ticketCount, existingTicket] = await Promise.all([
+        collections.tickets?.count({
+            userId: user.id
+        }),
+        collections.tickets?.findOne({
+            userId: user.id,
+            sectionKey
+        })
+    ])
+
+    if ((ticketCount ?? 10) >= 10) {
         interaction.reply({
             content: ':x:  You have reached the ticket limit (10)',
             ephemeral: true
@@ -27,43 +58,45 @@ const addTicket: CommandHandler = async (interaction) => {
         return
     }
 
-    try {
-        const status = await SectionStatusScraper.scrape(sectionKey)
-
-        const newTicket: Ticket = {
-            userId: user.id,
-            sectionKey,
-            status
-        }
-
-        await collections.tickets?.insertOne(newTicket)
-
+    if (existingTicket) {
         interaction.reply({
-            content: [
-                `:tickets: Tracking ticket created`,
-                '\n' + TicketDetail(newTicket)
-            ].join('\n'),
+            content: `:x: You already have a ticket for **${sectionKey}**`,
             ephemeral: true
         })
 
-        logger.log('debug', 'added ticket for section "%s"', sectionKey)
-    } catch (e) {
-        if (e instanceof ParsingError) {
-            interaction.reply({
-                content: `:x: **${sectionName}** is not a valid section`,
-                ephemeral: true
-            })
-        } else if (e instanceof MongoServerError) {
-            interaction.reply({
-                content: `:x: You already have a ticket for **${sectionKey}**`,
-                ephemeral: true
-            })
-        } else {
-            throw e
-        }
-
-        logger.log('debug', 'failed to add ticket for section "%s"', sectionKey)
+        return
     }
+
+    const html = await SectionStatusScraper.retrieveHTML(sectionKey)
+
+    if (!html.match(/expand all classes/i)) {
+        interaction.reply({
+            content: `:x: section **${sectionKey}** could not be found`,
+            ephemeral: true
+        })
+
+        return
+    }
+
+    const status = SectionStatusScraper.parsePageHTML(html)
+
+    const newTicket: Ticket = {
+        userId: user.id,
+        sectionKey,
+        status
+    }
+
+    await collections.tickets?.insertOne(newTicket)
+
+    interaction.reply({
+        content: [
+            `:tickets: Tracking ticket created`,
+            '\n' + TicketDetail(newTicket)
+        ].join('\n'),
+        ephemeral: true
+    })
+
+    logger.log('info', 'added ticket for section %s', sectionKey)
 }
 
 export default addTicket

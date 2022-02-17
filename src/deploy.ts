@@ -2,7 +2,6 @@ import { SlashCommandBuilder } from '@discordjs/builders'
 import { REST } from '@discordjs/rest'
 import { Routes } from 'discord-api-types/v9'
 import 'dotenv/config'
-import { ValueError } from './error'
 
 const { DISCORD_BOT_AUTH_TOKEN, DISCORD_BOT_CLIENT_ID, DISCORD_DEV_GUILD_ID } =
     process.env
@@ -25,9 +24,7 @@ function getDeployment(location: string) {
                 message: 'donald-bot commands deployed globally 🚀'
             }
         default:
-            throw new ValueError(
-                `${location} is an invalid deployment location`
-            )
+            return null
     }
 }
 
@@ -47,12 +44,22 @@ async function main() {
             .setDescription('Show your tickets'),
         new SlashCommandBuilder()
             .setName('clear-tickets')
-            .setDescription('Clear your tickets')
+            .setDescription('Clear your tickets'),
+        new SlashCommandBuilder()
+            .setName('help')
+            .setDescription('Common Q/A')
     ].map((command) => command.toJSON())
 
     const rest = new REST({ version: '9' }).setToken(DISCORD_BOT_AUTH_TOKEN)
 
-    const { route, message } = getDeployment(DEPLOYMENT_LOCATION)
+    const deployment = getDeployment(DEPLOYMENT_LOCATION)
+
+    if (!deployment) {
+        console.log('deployment not found')
+        return
+    }
+
+    const { route, message }  = deployment
 
     await rest.put(route, { body: commands })
 
