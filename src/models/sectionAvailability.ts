@@ -1,4 +1,4 @@
-import { SectionStatus } from "../models/ticket"
+import { SectionStatus } from "./ticket"
 
 export const SectionAvailability = {
     ENROLL: {

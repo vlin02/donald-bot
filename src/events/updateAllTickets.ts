@@ -2,6 +2,7 @@ import { botClient } from '../client'
 import { collections } from '../database'
 import * as SectionStatusScraper from '../scrapers/sectionStatus'
 import { logger } from '../log'
+import { inferSectionAvailability } from '../models/sectionAvailability'
 
 export default async function updateAllTickets() {
     const tickets = (await collections.tickets?.find().toArray()) ?? []
@@ -18,7 +19,7 @@ export default async function updateAllTickets() {
 
     ticketBuffer.forEach(async ({ ticket, newStatus }) => {
         const [oldAction, newAction] = [ticket.status, newStatus].map(
-            SectionStatusScraper.inferSectionAvailability
+            inferSectionAvailability
         )
 
         if (oldAction === newAction) return
