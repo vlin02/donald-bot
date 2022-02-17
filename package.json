@@ -18,7 +18,7 @@
     "deploy": "node dist/deploy.js",
     "dev": "nodemon dist/index.js --watch dist",
     "build": "tsc -p tsconfig.json",
-    "watch": "tsc -p tsconfig.json --clean -w"
+    "watch": "tsc -p tsconfig.json -w"
   },
   "devDependencies": {
     "@types/node": "^17.0.18",
