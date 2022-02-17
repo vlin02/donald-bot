@@ -1,0 +1,257 @@
+[
+    { "value": "AERO ST", "label": "Aerospace Studies (AERO ST) " },
+    { "value": "AF AMER", "label": "African American Studies (AF AMER) " },
+    { "value": "AFRC ST", "label": "African Studies (AFRC ST) " },
+    { "value": "AM IND ", "label": "American Indian Studies (AM IND) " },
+    { "value": "ASL    ", "label": "American Sign Language (ASL) " },
+    { "value": "AN N EA", "label": "Ancient Near East (AN N EA) " },
+    { "value": "ANTHRO ", "label": "Anthropology (ANTHRO) " },
+    { "value": "APPLING", "label": "Applied Linguistics (APPLING) " },
+    { "value": "ARABIC ", "label": "Arabic " },
+    { "value": "ARCHEOL", "label": "Archaeology (ARCHEOL) " },
+    { "value": "ARCH&UD", "label": "Architecture and Urban Design (ARCH&UD) " },
+    { "value": "ARMENIA", "label": "Armenian (ARMENIA) " },
+    { "value": "ART    ", "label": "Art " },
+    { "value": "ART HIS", "label": "Art History (ART HIS) " },
+    { "value": "ARTS ED", "label": "Arts Education (ARTS ED) " },
+    { "value": "ASIAN  ", "label": "Asian " },
+    { "value": "ASIA AM", "label": "Asian American Studies (ASIA AM) " },
+    { "value": "ASTR   ", "label": "Astronomy (ASTR) " },
+    {
+        "value": "A&O SCI",
+        "label": "Atmospheric and Oceanic Sciences (A&O SCI) "
+    },
+    { "value": "BIOENGR", "label": "Bioengineering (BIOENGR) " },
+    { "value": "BIOINFO", "label": "Bioinformatics (Graduate) (BIOINFO) " },
+    { "value": "BIOL CH", "label": "Biological Chemistry (BIOL CH) " },
+    { "value": "BIOMATH", "label": "Biomathematics (BIOMATH) " },
+    { "value": "BMD RES", "label": "Biomedical Research (BMD RES) " },
+    { "value": "BIOSTAT", "label": "Biostatistics (BIOSTAT) " },
+    {
+        "value": "C&EE ST",
+        "label": "Central and East European Studies (C&EE ST) "
+    },
+    { "value": "CH ENGR", "label": "Chemical Engineering (CH ENGR) " },
+    { "value": "CHEM   ", "label": "Chemistry and Biochemistry (CHEM) " },
+    {
+        "value": "CCAS   ",
+        "label": "Chicana/o and Central American Studies (CCAS) "
+    },
+    { "value": "CHIN   ", "label": "Chinese (CHIN) " },
+    {
+        "value": "C&EE   ",
+        "label": "Civil and Environmental Engineering (C&EE) "
+    },
+    { "value": "CLASSIC", "label": "Classics (CLASSIC) " },
+    { "value": "CLUSTER", "label": "Clusters (CLUSTER) " },
+    { "value": "COMM   ", "label": "Communication (COMM) " },
+    {
+        "value": "CESC   ",
+        "label": "Community Engagement and Social Change (CESC) "
+    },
+    { "value": "COM HLT", "label": "Community Health Sciences (COM HLT) " },
+    { "value": "COM LIT", "label": "Comparative Literature (COM LIT) " },
+    {
+        "value": "C&S BIO",
+        "label": "Computational and Systems Biology (C&S BIO) "
+    },
+    { "value": "COM SCI", "label": "Computer Science (COM SCI) " },
+    {
+        "value": "CLT HTG",
+        "label": "Conservation of Cultural Heritage (CLT HTG) "
+    },
+    { "value": "DANCE  ", "label": "Dance " },
+    { "value": "DENT   ", "label": "Dentistry (DENT) " },
+    { "value": "DESMA  ", "label": "Design / Media Arts (DESMA) " },
+    { "value": "DGT HUM", "label": "Digital Humanities (DGT HUM) " },
+    { "value": "DIS STD", "label": "Disability Studies (DIS STD) " },
+    { "value": "DUTCH  ", "label": "Dutch " },
+    {
+        "value": "EPS SCI",
+        "label": "Earth, Planetary, and Space Sciences (EPS SCI) "
+    },
+    { "value": "EA STDS", "label": "East Asian Studies (EA STDS) " },
+    {
+        "value": "EE BIOL",
+        "label": "Ecology and Evolutionary Biology (EE BIOL) "
+    },
+    { "value": "ECON   ", "label": "Economics (ECON) " },
+    { "value": "EDUC   ", "label": "Education (EDUC) " },
+    {
+        "value": "EC ENGR",
+        "label": "Electrical and Computer Engineering (EC ENGR) "
+    },
+    { "value": "ENGR   ", "label": "Engineering (ENGR) " },
+    { "value": "ENGL   ", "label": "English (ENGL) " },
+    { "value": "ESL    ", "label": "English as A Second Language (ESL) " },
+    { "value": "ENGCOMP", "label": "English Composition (ENGCOMP) " },
+    { "value": "ENVIRON", "label": "Environment (ENVIRON) " },
+    { "value": "ENV HLT", "label": "Environmental Health Sciences (ENV HLT) " },
+    { "value": "EPIDEM ", "label": "Epidemiology (EPIDEM) " },
+    { "value": "ETHNMUS", "label": "Ethnomusicology (ETHNMUS) " },
+    {
+        "value": "ELTS   ",
+        "label": "European Languages and Transcultural Studies (ELTS) "
+    },
+    { "value": "FILIPNO", "label": "Filipino (FILIPNO) " },
+    { "value": "FILM TV", "label": "Film and Television (FILM TV) " },
+    { "value": "FOOD ST", "label": "Food Studies (FOOD ST) " },
+    { "value": "FRNCH  ", "label": "French (FRNCH) " },
+    { "value": "GENDER ", "label": "Gender Studies (GENDER) " },
+    { "value": "GEOG   ", "label": "Geography (GEOG) " },
+    { "value": "GERMAN ", "label": "German " },
+    { "value": "GRNTLGY", "label": "Gerontology (GRNTLGY) " },
+    { "value": "GLB HLT", "label": "Global Health (GLB HLT) " },
+    { "value": "GJ STDS", "label": "Global Jazz Studies (GJ STDS) " },
+    { "value": "GLBL ST", "label": "Global Studies (GLBL ST) " },
+    {
+        "value": "GRAD PD",
+        "label": "Graduate Student Professional Development (GRAD PD) "
+    },
+    { "value": "GREEK  ", "label": "Greek " },
+    { "value": "HLT POL", "label": "Health Policy and Management (HLT POL) " },
+    { "value": "HLT ADM", "label": "Healthcare Administration (HLT ADM) " },
+    { "value": "HEBREW ", "label": "Hebrew " },
+    { "value": "HIN-URD", "label": "Hindi-Urdu (HIN-URD) " },
+    { "value": "HIST   ", "label": "History (HIST) " },
+    { "value": "HNRS   ", "label": "Honors Collegium (HNRS) " },
+    { "value": "HUM GEN", "label": "Human Genetics (HUM GEN) " },
+    { "value": "HNGAR  ", "label": "Hungarian (HNGAR) " },
+    {
+        "value": "IL AMER",
+        "label": "Indigenous Languages of the Americas (IL AMER) "
+    },
+    { "value": "I E STD", "label": "Indo-European Studies (I E STD) " },
+    { "value": "INDO   ", "label": "Indonesian (INDO) " },
+    { "value": "INF STD", "label": "Information Studies (INF STD) " },
+    {
+        "value": "I A STD",
+        "label": "International and Area Studies (I A STD) "
+    },
+    {
+        "value": "INTL DV",
+        "label": "International Development Studies (INTL DV) "
+    },
+    {
+        "value": "I M STD",
+        "label": "International Migration Studies (I M STD) "
+    },
+    { "value": "IRANIAN", "label": "Iranian " },
+    { "value": "ISLM ST", "label": "Islamic Studies (ISLM ST) " },
+    { "value": "ITALIAN", "label": "Italian " },
+    { "value": "JAPAN  ", "label": "Japanese (JAPAN) " },
+    { "value": "JEWISH ", "label": "Jewish Studies (JEWISH) " },
+    { "value": "KOREA  ", "label": "Korean (KOREA) " },
+    { "value": "LBR STD", "label": "Labor Studies (LBR STD) " },
+    { "value": "LATIN  ", "label": "Latin " },
+    { "value": "LATN AM", "label": "Latin American Studies (LATN AM) " },
+    { "value": "LAW    ", "label": "Law " },
+    { "value": "UG-LAW ", "label": "Law (Undergraduate) (UG-LAW) " },
+    {
+        "value": "LGBTQS ",
+        "label": "Lesbian, Gay, Bisexual, Transgender, and Queer Studies (LGBTQS) "
+    },
+    { "value": "LIFESCI", "label": "Life Sciences (LIFESCI) " },
+    { "value": "LING   ", "label": "Linguistics (LING) " },
+    { "value": "MGMT   ", "label": "Management (MGMT) " },
+    { "value": "MGMTEX ", "label": "Management-Executive MBA (MGMTEX) " },
+    { "value": "MGMTFT ", "label": "Management-Full-Time MBA (MGMTFT) " },
+    { "value": "MGMTFE ", "label": "Management-Fully Employed MBA (MGMTFE) " },
+    {
+        "value": "MGMTMFE",
+        "label": "Management-Master of Financial Engineering (MGMTMFE) "
+    },
+    {
+        "value": "MGMTMSA",
+        "label": "Management-Master of Science in Business Analytics (MGMTMSA) "
+    },
+    { "value": "MGMTPHD", "label": "Management-PhD (MGMTPHD) " },
+    {
+        "value": "MAT SCI",
+        "label": "Materials Science and Engineering (MAT SCI) "
+    },
+    { "value": "MATH   ", "label": "Mathematics (MATH) " },
+    {
+        "value": "MECH&AE",
+        "label": "Mechanical and Aerospace Engineering (MECH&AE) "
+    },
+    { "value": "MED    ", "label": "Medicine (MED) " },
+    {
+        "value": "MIMG   ",
+        "label": "Microbiology, Immunology, and Molecular Genetics (MIMG) "
+    },
+    { "value": "M E STD", "label": "Middle Eastern Studies (M E STD) " },
+    { "value": "MIL SCI", "label": "Military Science (MIL SCI) " },
+    {
+        "value": "M PHARM",
+        "label": "Molecular and Medical Pharmacology (M PHARM) "
+    },
+    { "value": "MOL BIO", "label": "Molecular Biology (MOL BIO) " },
+    { "value": "MOL TOX", "label": "Molecular Toxicology (MOL TOX) " },
+    {
+        "value": "MCD BIO",
+        "label": "Molecular, Cell, and Developmental Biology (MCD BIO) "
+    },
+    {
+        "value": "MC&IP  ",
+        "label": "Molecular, Cellular, and Integrative Physiology (MC&IP) "
+    },
+    { "value": "MUSC   ", "label": "Music (MUSC) " },
+    { "value": "MSC IND", "label": "Music Industry (MSC IND) " },
+    { "value": "MUSCLG ", "label": "Musicology (MUSCLG) " },
+    { "value": "NAV SCI", "label": "Naval Science (NAV SCI) " },
+    { "value": "NR EAST", "label": "Near Eastern Languages (NR EAST) " },
+    { "value": "NEURBIO", "label": "Neurobiology (NEURBIO) " },
+    { "value": "NEURO  ", "label": "Neuroscience (Graduate) (NEURO) " },
+    { "value": "NEUROSC", "label": "Neuroscience (NEUROSC) " },
+    { "value": "NEURSGY", "label": "Neurosurgery (NEURSGY) " },
+    { "value": "NURSING", "label": "Nursing " },
+    { "value": "OBGYN  ", "label": "Obstetrics and Gynecology (OBGYN) " },
+    { "value": "ORL BIO", "label": "Oral Biology (ORL BIO) " },
+    {
+        "value": "PATH   ",
+        "label": "Pathology and Laboratory Medicine (PATH) "
+    },
+    { "value": "PHILOS ", "label": "Philosophy (PHILOS) " },
+    { "value": "PHYSICS", "label": "Physics " },
+    { "value": "PBMED  ", "label": "Physics and Biology in Medicine (PBMED) " },
+    { "value": "PHYSCI ", "label": "Physiological Science (PHYSCI) " },
+    { "value": "PHYSIOL", "label": "Physiology (PHYSIOL) " },
+    { "value": "POL SCI", "label": "Political Science (POL SCI) " },
+    { "value": "PORTGSE", "label": "Portuguese (PORTGSE) " },
+    { "value": "COMPTNG", "label": "Program in Computing (COMPTNG) " },
+    {
+        "value": "PSYCTRY",
+        "label": "Psychiatry and Biobehavioral Sciences (PSYCTRY) "
+    },
+    { "value": "PSYCH  ", "label": "Psychology (PSYCH) " },
+    { "value": "PUB AFF", "label": "Public Affairs (PUB AFF) " },
+    { "value": "PUB HLT", "label": "Public Health (PUB HLT) " },
+    { "value": "PUB PLC", "label": "Public Policy (PUB PLC) " },
+    { "value": "RELIGN ", "label": "Religion, Study of (RELIGN) " },
+    { "value": "ROMANIA", "label": "Romanian (ROMANIA) " },
+    { "value": "RUSSN  ", "label": "Russian (RUSSN) " },
+    { "value": "SCAND  ", "label": "Scandinavian (SCAND) " },
+    { "value": "SCI EDU", "label": "Science Education (SCI EDU) " },
+    { "value": "SEMITIC", "label": "Semitic " },
+    { "value": "SRB CRO", "label": "Serbian/Croatian (SRB CRO) " },
+    { "value": "SLAVC  ", "label": "Slavic (SLAVC) " },
+    { "value": "SOC SC ", "label": "Social Science (SOC SC) " },
+    { "value": "SOC THT", "label": "Social Thought (SOC THT) " },
+    { "value": "SOC WLF", "label": "Social Welfare (SOC WLF) " },
+    { "value": "SOC GEN", "label": "Society and Genetics (SOC GEN) " },
+    { "value": "SOCIOL ", "label": "Sociology (SOCIOL) " },
+    { "value": "S ASIAN", "label": "South Asian (S ASIAN) " },
+    { "value": "SEASIAN", "label": "Southeast Asian (SEASIAN) " },
+    { "value": "SPAN   ", "label": "Spanish (SPAN) " },
+    { "value": "STATS  ", "label": "Statistics (STATS) " },
+    { "value": "SWAHILI", "label": "Swahili " },
+    { "value": "THAI   ", "label": "Thai " },
+    { "value": "THEATER", "label": "Theater " },
+    { "value": "TURKIC ", "label": "Turkic Languages (TURKIC) " },
+    { "value": "UNIV ST", "label": "University Studies (UNIV ST) " },
+    { "value": "URBN PL", "label": "Urban Planning (URBN PL) " },
+    { "value": "VIETMSE", "label": "Vietnamese (VIETMSE) " },
+    { "value": "WL ARTS", "label": "World Arts and Cultures (WL ARTS) " },
+    { "value": "YIDDSH ", "label": "Yiddish (YIDDSH) " }
+]
