@@ -18,6 +18,8 @@ export default async function updateAllTickets() {
     logger.log('info', 'retrieved new ticket statuses')
 
     ticketBuffer.forEach(async ({ ticket, newStatus }) => {
+        logger.log('debug', `newStatus: ${JSON.stringify(newStatus)} for section ${ticket.sectionKey}`)
+        
         const [oldAction, newAction] = [ticket.status, newStatus].map(
             inferSectionAvailability
         )

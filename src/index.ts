@@ -12,19 +12,15 @@ import help from './commands/help'
 
 const {NODE_ENV, STATUS_UPDATE_INTERVAL, DISCORD_BOT_AUTH_TOKEN } = process.env
 
+const commandHandlers: Record<string, CommandHandler> = {
+    'add-ticket': addTicket,
+    'clear-tickets': clearTickets,
+    'show-tickets': showTickets,
+    'help': help
+}
+
 export async function main() {
     await connectToDatabase()
-
-    await botClient.login(DISCORD_BOT_AUTH_TOKEN)
-
-    logger.log('info', 'logged into bot client')
-
-    const commandHandlers: Record<string, CommandHandler> = {
-        'add-ticket': addTicket,
-        'clear-tickets': clearTickets,
-        'show-tickets': showTickets,
-        'help': help
-    }
 
     botClient.once('ready', () => {
         setInterval(() => {
@@ -80,7 +76,9 @@ export async function main() {
         }
     })
 
-    logger.log('info', 'listening for commands...')
+    await botClient.login(DISCORD_BOT_AUTH_TOKEN)
+
+    logger.log('info', 'logged into bot client')
 }
 
 main()
