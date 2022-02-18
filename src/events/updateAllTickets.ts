@@ -1,27 +1,62 @@
 import { botClient } from '../client'
 import { collections } from '../database'
-import * as SectionStatusScraper from '../scrapers/sectionStatus'
+import * as SOC from '../scrapers/SOC'
 import { logger } from '../log'
-import { inferSectionAvailability } from '../models/sectionAvailability'
+import * as SectionAvailability from '../models/SectionAvailability'
+import { Ticket } from '../models/Ticket'
 
-export default async function updateAllTickets() {
-    const tickets = (await collections.tickets?.find().toArray()) ?? []
-    const ticketBuffer = await Promise.all(
+type TicketUpdate = {
+    ticket: Ticket
+    update: Partial<Ticket>
+}
+
+export async function getTicketStatusUpdates(tickets: Ticket[]) {
+    return Promise.all(
         tickets.map(async (ticket) => {
+            const page = new SOC.SectionPage(ticket.sectionKey)
+            const html = await page.retrieveHTML()
+
             return {
                 ticket,
-                newStatus: await SectionStatusScraper.scrape(ticket.sectionKey)
+                update: {
+                    status: SOC.extractSectionStatus(html)
+                }
             }
         })
     )
+}
+
+export function createTicketUpdateOperation({ ticket, update }: TicketUpdate) {
+    return {
+        updateOne: {
+            filter: {
+                userId: ticket.userId,
+                sectionKey: ticket.sectionKey
+            },
+            update: {
+                ...ticket,
+                ...update
+            }
+        }
+    }
+}
+
+export default async function updateAllTickets() {
+    const tickets = (await collections.tickets?.find().toArray()) ?? []
+    const ticketUpdates = await getTicketStatusUpdates(tickets)
 
     logger.log('info', 'retrieved new ticket statuses')
 
-    ticketBuffer.forEach(async ({ ticket, newStatus }) => {
-        logger.log('debug', `newStatus: ${JSON.stringify(newStatus)} for section ${ticket.sectionKey}`)
-        
-        const [oldAction, newAction] = [ticket.status, newStatus].map(
-            inferSectionAvailability
+    ticketUpdates.forEach(async ({ ticket, update }) => {
+        logger.log(
+            'debug',
+            `updated status: ${JSON.stringify(update.status)} for section ${
+                ticket.sectionKey
+            }`
+        )
+
+        const [oldAction, newAction] = [ticket.status, update.status].map(
+            SectionAvailability.getFromStatus
         )
 
         if (oldAction === newAction) return
@@ -32,12 +67,17 @@ export default async function updateAllTickets() {
             `Status update on section ${ticket.sectionKey}: course is now ${newAction.tag}`
         )
 
-        logger.log(
-            'info',
+        logger.info(
             'status update message sent to %s (%s) for section %s',
             user.username,
             user.id,
             ticket.sectionKey
         )
     })
+
+    await collections.tickets?.bulkWrite(
+        ticketUpdates.map(createTicketUpdateOperation)
+    )
+
+    logger.info('updated ticket statuses in database')
 }

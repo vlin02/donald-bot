@@ -1,18 +1,17 @@
 import axios from 'axios'
-import { SectionStatus } from '../models/ticket'
+import { sectionKeyRegex } from '../models/SectionKey'
+import { SectionStatus } from '../models/Ticket'
 
-type SectionDetailParams = {
+type SearchParams = {
     term: string
     subjectArea: string
     catalogNumber: string
     classNumber: string
 }
 
-export const sectionKeyRegex = /^(\d{2}[WSF1]) ([A-Z ]*) ([A-Z])?(\d*)([A-Z]*) \((\d*)\)$/
-
-export function getSectionDetailParams(
+export function getSearchParams(
     sectionKey: string
-): SectionDetailParams {
+): SearchParams {
     const result = sectionKey.match(sectionKeyRegex)
 
     if (!result) throw new Error('invalid section key')
@@ -42,7 +41,7 @@ export function getSectionDetailParams(
     }
 }
 
-export function parsePageHTML(html: string): SectionStatus {
+export function extractSectionStatus(html: string): SectionStatus {
     let result
 
     const status: SectionStatus = {
@@ -97,7 +96,7 @@ export function parsePageHTML(html: string): SectionStatus {
     return status
 }
 
-export class PageRetriever {
+export class SectionPage {
     sectionKey: string
 
     constructor(sectionKey: string) {
@@ -106,8 +105,8 @@ export class PageRetriever {
 
     getRequestParams() {
         const { term, subjectArea, catalogNumber, classNumber } =
-            getSectionDetailParams(this.sectionKey)
-
+            getSearchParams(this.sectionKey)
+    
         return {
             t: term,
             sBy: 'subject',
@@ -124,17 +123,7 @@ export class PageRetriever {
                 params: this.getRequestParams()
             }
         )
-
+    
         return html
     }
-}
-
-export async function retrieveHTML(sectionKey: string) {
-    const retriever = new PageRetriever(sectionKey)
-    return retriever.retrieveHTML()
-}
-
-export async function scrape(sectionKey: string) {
-    const html = await retrieveHTML(sectionKey)
-    return parsePageHTML(html)
 }

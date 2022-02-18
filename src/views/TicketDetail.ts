@@ -1,5 +1,5 @@
-import { inferSectionAvailability } from '../models/sectionAvailability'
-import { Ticket } from '../models/ticket'
+import { inferSectionAvailability } from '../models/SectionAvailability'
+import { Ticket } from '../models/Ticket'
 
 export default function TicketDetail(ticket: Ticket) {
     const { sectionKey, status } = ticket

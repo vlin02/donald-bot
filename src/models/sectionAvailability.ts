@@ -1,37 +1,34 @@
-import { SectionStatus } from "./ticket"
+import { SectionStatus } from './Ticket'
 
-export const SectionAvailability = {
-    ENROLL: {
-        color: '3da560',
-        tag: 'open',
-        emote: ':green_square:',
-        priority: 0
-    },
-    WAITLIST: {
-        color: 'f9a62b',
-        tag: 'waitlist',
-        emote: ':yellow_square:',
-        priority: 1
-    },
-    FULL: {
-        color: 'ec4145',
-        tag: 'full',
-        emote: ':red_square:',
-        priority: 2
-    },
-    CLOSED: {
-        tag: 'closed',
-        color: 'ec4145',
-        emote: ':red_square:',
-        priority: 3
-    }
+export const ENROLL = {
+    color: '3da560',
+    tag: 'open',
+    emote: ':green_square:',
+    priority: 0
 }
 
-export function inferSectionAvailability(status: SectionStatus) {
-    if (status.enroll.size === 0) return SectionAvailability.CLOSED
-    else if (status.enroll.filled < status.enroll.size)
-        return SectionAvailability.ENROLL
-    else if (status.waitlist.filled < status.waitlist.filled)
-        return SectionAvailability.WAITLIST
-    else return SectionAvailability.FULL
+export const WAITLIST = {
+    color: 'f9a62b',
+    tag: 'waitlist',
+    emote: ':yellow_square:',
+    priority: 1
+}
+export const FULL = {
+    color: 'ec4145',
+    tag: 'full',
+    emote: ':red_square:',
+    priority: 2
+}
+export const CLOSED = {
+    tag: 'closed',
+    color: 'ec4145',
+    emote: ':red_square:',
+    priority: 3
+}
+
+export function getFromStatus(status: SectionStatus) {
+    if (status.enroll.size === 0) return CLOSED
+    else if (status.enroll.filled < status.enroll.size) return ENROLL
+    else if (status.waitlist.filled < status.waitlist.filled) return WAITLIST
+    else return FULL
 }

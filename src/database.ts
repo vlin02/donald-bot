@@ -1,7 +1,7 @@
 import 'dotenv/config'
 
 import { MongoClient, Collection } from 'mongodb'
-import { Ticket } from './models/ticket'
+import { Ticket } from './models/Ticket'
 import { logger } from './log'
 
 const { MONGO_PROD_CONN_STRING, MONGO_DB_NAME } = process.env
