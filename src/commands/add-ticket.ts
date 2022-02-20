@@ -12,10 +12,11 @@ const options = new SlashCommandBuilder()
     )
 
 const handler: CommandInteractionHandler = () => {
-    
+
 }
 
 export const addTicketCommand = {
+    name: 'add-ticket',
     options,
     handler
 }

@@ -17,7 +17,7 @@ export async function connectToDatabase(): Promise<Database> {
 
     const mongoDb = client.db(MONGO_DB_NAME)
 
-    logger.log('info', 'connected to database: %s', mongoDb.databaseName)
+    logger.info('using database named %s', mongoDb.databaseName)
 
     return {
         sections: mongoDb.collection<Section>('sections'),
