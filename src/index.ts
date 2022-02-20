@@ -1,7 +1,11 @@
+import 'dotenv/config'
+
 import { Client, Intents } from 'discord.js'
 import { commands } from './commands'
 import { connectToDatabase } from './utils/database'
 import { logger } from './utils/logger'
+
+const {DISCORD_BOT_AUTH_TOKEN} = process.env
 
 ;(async () => {
     const db = await connectToDatabase()
@@ -40,7 +44,7 @@ import { logger } from './utils/logger'
         }
     })
 
-    await client.login()
+    await client.login(DISCORD_BOT_AUTH_TOKEN)
 
     logger.info('logged into discord client')
 })()
