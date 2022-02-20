@@ -1,7 +1,8 @@
-import { connectToDatabase } from './database'
+import { connectToDatabase } from './utils/database'
 ;(async () => {
 
     const db = await connectToDatabase()
+
 
     
 })()

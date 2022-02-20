@@ -1,7 +1,7 @@
 import { Collection, MongoClient } from 'mongodb'
-import { Section } from './models/section'
-import { User } from './models/user'
-import { logger } from './utils/logger'
+import { Section } from '../models/section'
+import { User } from '../models/user'
+import { logger } from './logger'
 
 const { MONGO_CONN_STRING, MONGO_DB_NAME } = process.env
 
