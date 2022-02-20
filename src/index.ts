@@ -30,7 +30,12 @@ import { logger } from './utils/logger'
             }
 
             logger.info('handling command %s', commandName)
-            await currentCmd.handler(interaction, db)
+            
+            const handler = new currentCmd.handler({ interaction, db })
+            const success = await handler.handle()
+
+            if (success) logger.info('successfully handled command')
+            else logger.info('failed to handle command')
         }
     })
 

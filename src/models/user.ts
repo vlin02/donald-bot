@@ -1,6 +1,6 @@
-import {SectionKey} from './section'
+import { SectionKey } from "./section"
 
-export interface User {
+export class User {
     discordId: string
     tickets: SectionKey[]
 }

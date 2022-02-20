@@ -1,5 +1,3 @@
-export type SectionKey = string
-
 export interface QueueStatus {
     filled: number
     size: number
@@ -12,6 +10,9 @@ export interface SectionStatus {
 }
 
 export interface Section {
-    key: SectionKey
+    key: string
     status: SectionStatus
 }
+
+export const SectionKeyRegex =
+    /^(\d{2}[WSF1]) ([A-Z ]*) ([A-Z])?(\d*)([A-Z]*) \((\d*)\)$/

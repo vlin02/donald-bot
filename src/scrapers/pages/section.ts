@@ -1,7 +1,5 @@
 import axios from 'axios'
-import { getSearchParams } from '../../../v2/scrapers/SOC'
-import { SectionKey } from '../../models/section'
-import * as RegexMatch from '../../utils/regex-match'
+import { SectionKeyRegex } from '../../models/section'
 
 type SearchParams = {
     term: string
@@ -10,18 +8,18 @@ type SearchParams = {
     classNumber: string
 }
 
-export class SectionPage {
-    sectionKey: string
 
-    constructor(sectionKey: SectionKey) {
-        this.sectionKey = sectionKey
+export class SectionPage {
+    key: string
+
+    constructor(key: string) {
+        this.key = key
     }
 
     getSearchParams(): SearchParams {
-        const result = this.sectionKey.match(RegexMatch.sectionKey)
+        const result = this.key.match(SectionKeyRegex)
 
-        if (!result)
-            throw new Error('sectionKey does not match regex')
+        if (!result) throw new Error('sectionKey does not match regex')
 
         const [
             _match,
@@ -50,7 +48,7 @@ export class SectionPage {
 
     getRequestParams() {
         const { term, subjectArea, catalogNumber, classNumber } =
-            getSearchParams(this.sectionKey)
+            this.identifier.getSearchParams()
 
         return {
             t: term,

@@ -1,7 +1,25 @@
-import { CacheType, CommandInteraction } from 'discord.js'
+import { CacheType, CommandInteraction, InteractionReplyOptions } from 'discord.js'
 import { Database } from './database'
 
-export type CommandInteractionHandler = (
-    interaction: CommandInteraction<CacheType>,
+interface CommandInteractionHandlerProps {
+    interaction: CommandInteraction<CacheType>
     db: Database
-) => any
+}
+
+export class CommandInteractionHandler {
+    protected interaction: CommandInteraction<CacheType>
+    protected db: Database
+
+    constructor({ interaction, db }: CommandInteractionHandlerProps) {
+        this.interaction = interaction
+        this.db = db
+    }
+
+    reply(options: InteractionReplyOptions) {
+        return this.interaction.reply({...options, ephemeral: true})
+    }
+}
+
+export interface ValidationError {
+    code: string
+}
