@@ -1,4 +1,8 @@
-import { CacheType, CommandInteraction, InteractionReplyOptions } from 'discord.js'
+import {
+    CacheType,
+    CommandInteraction,
+    InteractionReplyOptions
+} from 'discord.js'
 import { Database } from './database'
 
 interface CommandInteractionHandlerProps {
@@ -16,10 +20,16 @@ export class CommandInteractionHandler {
     }
 
     reply(options: InteractionReplyOptions) {
-        return this.interaction.reply({...options, ephemeral: true})
+        return this.interaction.reply({ ...options, ephemeral: true })
     }
 }
 
-export interface ValidationError {
-    code: string
-}
+export type ServiceResult<SuccessPayload, ErrorPayload> =
+    | {
+          success: true
+          payload: SuccessPayload
+      }
+    | {
+          success: false
+          payload: ErrorPayload
+      }

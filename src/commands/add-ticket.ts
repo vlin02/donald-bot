@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { InteractionReplyOptions } from 'discord.js'
-import { AddTicketService, AddTicketServiceError } from '../services/add-ticket'
+import { AddTicketService } from '../services/add-ticket'
 import ValidateSectionService from '../services/validate-section'
 import { CommandInteractionHandler } from '../utils/types'
 

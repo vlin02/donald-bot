@@ -1,15 +1,10 @@
 import { SectionKeyRegex } from '../models/section'
 import subjectAreas from '../data/processed/subject-areas.json'
+import { ServiceResult } from '../utils/types'
 
-export type ValidateSectionResult =
-    | {
-          success: true
-          payload: null
-      }
-    | {
-          success: false
-          payload: ValidateSectionError
-      }
+export interface ValidateSectionInput {
+    sectionKey: string
+}
 
 export type ValidateSectionError =
     | {
@@ -20,9 +15,7 @@ export type ValidateSectionError =
           subjectArea: string
       }
 
-export interface ValidateSectionInput {
-    sectionKey: string
-}
+export type ValidateSectionResult = ServiceResult<null, ValidateSectionError>
 
 export default function ValidateSectionService({
     sectionKey

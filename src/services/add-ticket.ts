@@ -2,6 +2,7 @@ import { Section } from '../models/section'
 import { Database } from '../utils/database'
 import { SectionPage } from '../scrapers/pages/section'
 import { parseSectionStatus } from '../scrapers/parsers/section-status'
+import { ServiceResult } from '../utils/types'
 
 export interface AddTicketProps {
     discordId: string
@@ -9,24 +10,21 @@ export interface AddTicketProps {
     db: Database
 }
 
-export type AddTicketServiceError = {
+export type AddTicketError = {
     code:
         | 'EXISTING_TICKET_FOUND'
         | 'MAX_TICKET_LIMIT_REACHED'
         | 'SECTION_NOT_FOUND'
 }
 
-export type AddTicketServiceResult =
-    | {
-          success: true
-          payload: {
-              section: Section
-          }
-      }
-    | {
-          success: false
-          payload: AddTicketServiceError
-      }
+export type AddTicketPayload = {
+    section: Section
+}
+
+export type AddTicketServiceResult = ServiceResult<
+    AddTicketPayload,
+    AddTicketError
+>
 
 export async function AddTicketService({
     discordId,
