@@ -1,3 +1,5 @@
+import 'dotenv/config'
+
 import { Collection, MongoClient } from 'mongodb'
 import { Section } from '../models/section'
 import { User } from '../models/user'

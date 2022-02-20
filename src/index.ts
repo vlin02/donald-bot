@@ -2,6 +2,7 @@ import { Client, Intents } from 'discord.js'
 import { commands } from './commands'
 import { connectToDatabase } from './utils/database'
 import { logger } from './utils/logger'
+
 ;(async () => {
     const db = await connectToDatabase()
 

@@ -1,3 +1,5 @@
+import 'dotenv/config'
+
 import { REST } from '@discordjs/rest'
 import { commands } from './commands'
 import { Routes } from 'discord-api-types/v9'
