@@ -1,14 +1,7 @@
-import { CommandInteraction, CacheType } from 'discord.js'
+import { CacheType, CommandInteraction } from 'discord.js'
+import { Database } from './database'
 
-export type CommandHandler<T = Promise<void> | void> = (
-    interaction: CommandInteraction<CacheType>
-) => T
-
-export type ValidationResult =
-    | {
-          value: false
-          message: string
-      }
-    | {
-          value: true
-      }
+export type CommandInteractionHandler = (
+    interaction: CommandInteraction<CacheType>,
+    db: Database
+) => any

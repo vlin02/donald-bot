@@ -1,27 +1,26 @@
-import 'dotenv/config'
+import { Collection, MongoClient } from 'mongodb'
+import { Section } from './models/section'
+import { User } from './models/user'
+import { logger } from './utils/logger'
 
-import { MongoClient, Collection } from 'mongodb'
-import { Ticket } from './models/Ticket'
-import { logger } from './log'
+const { MONGO_CONN_STRING, MONGO_DB_NAME } = process.env
 
-const { MONGO_PROD_CONN_STRING, MONGO_DB_NAME } = process.env
+export interface Database {
+    sections: Collection<Section>
+    users: Collection<User>
+}
 
-export const collections: { tickets?: Collection<Ticket> } = {}
+export async function connectToDatabase(): Promise<Database> {
+    const client = new MongoClient(MONGO_CONN_STRING)
 
-export async function connectToDatabase() {
-    const client = new MongoClient(MONGO_PROD_CONN_STRING)
-    
     await client.connect()
 
-    const db = client.db(MONGO_DB_NAME)
+    const mongoDb = client.db(MONGO_DB_NAME)
 
-    const ticketsCollection = db.collection<Ticket>('tickets')
+    logger.log('info', 'connected to database: %s', mongoDb.databaseName)
 
-    collections.tickets = ticketsCollection
-
-    await collections.tickets.createIndex(['userId', 'sectionKey'], {
-        unique: true
-    })
-
-    logger.log('info', 'connected to database: "%s"', db.databaseName)
+    return {
+        sections: mongoDb.collection<Section>('sections'),
+        users: mongoDb.collection<User>('users')
+    }
 }

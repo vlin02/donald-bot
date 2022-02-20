@@ -1,32 +1,19 @@
 {
     "compilerOptions": {
-        "target": "es6",
+        "target": "es2019",
         "module": "commonjs",
 
         "sourceMap": true,
         "outDir": "./dist",
-        "removeComments": true,
-
-        "noImplicitAny": true,
-        "strictNullChecks": true,
-        "strictFunctionTypes": true,
-        "strictBindCallApply": true,
-        "noImplicitThis": true,
-
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "noImplicitReturns": true,
-        "noFallthroughCasesInSwitch": true,
 
         "moduleResolution": "node",
-        "baseUrl": "./src",
-        "allowSyntheticDefaultImports": true,
-        "esModuleInterop": true,
-
-        "skipLibCheck": true,
         "resolveJsonModule": true,
-
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true
+        "esModuleInterop": true,
+        "baseUrl": "./src",
+        "paths": {
+            "@/*": [
+                "./*"
+            ]
+        }
     }
 }
