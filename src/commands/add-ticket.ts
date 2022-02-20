@@ -19,7 +19,7 @@ class AddTicketHandler extends CommandInteractionHandler {
         const { user, options } = this.interaction
         let view: InteractionReplyOptions
 
-        const sectionKey = options.getString('section', true)
+        const sectionKey = options.getString('section', true).toUpperCase()
 
         const validationResult = ValidateSectionService({
             sectionKey

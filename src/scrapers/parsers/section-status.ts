@@ -28,7 +28,7 @@ export function parseSectionStatus(html: string): SectionStatus {
         status.enroll.filled += seats
     }
 
-    result = html.match(/(\d*) of (\d*) enrolled/)
+    result = html.match(/(\d*) of (\d*) Enrolled/)
     if (result) {
         const filled = Number(result[1])
         const seats = Number(result[2])

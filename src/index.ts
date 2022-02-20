@@ -39,8 +39,8 @@ const {DISCORD_BOT_AUTH_TOKEN} = process.env
             const handler = new currentCmd.handler({ interaction, db })
             const success = await handler.handle()
 
-            if (success) logger.info('successfully handled command')
-            else logger.info('failed to handle command')
+            if (success) logger.info('command succeeded')
+            else logger.info('command failed')
         }
     })
 
