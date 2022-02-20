@@ -48,7 +48,7 @@ export class SectionPage {
 
     getRequestParams() {
         const { term, subjectArea, catalogNumber, classNumber } =
-            this.identifier.getSearchParams()
+            this.getSearchParams()
 
         return {
             t: term,

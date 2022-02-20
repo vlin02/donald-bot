@@ -1,4 +1,5 @@
-import subjectAreas from '../subject-areas.json'
+import subjectAreas from '../raw/subject-areas.json'
+
 import fs from 'fs'
 
 const subjectAreasCleaned = subjectAreas.map((subj) => {
