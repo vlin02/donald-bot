@@ -1,4 +1,5 @@
 import { Collection } from 'mongodb'
+import { ServiceError } from '../error'
 import { Database } from '../loaders/database'
 import { SectionStatus } from '../models/section'
 import { User } from '../models/user'
@@ -32,67 +33,41 @@ export default class TicketService extends TicketServiceBase {
         Object.assign(super(), props)
     }
 
-    public async addTicket({
-        discordId,
-        sectionKey
-    }): Promise<
-        ServiceResult<
-            { status: SectionStatus },
-            'SECTION_NOT_FOUND' | 'TICKET_EXISTS' | 'TICKET_LIMIT_REACHED'
-        >
-    > {
+    public async addTicket({ discordId, sectionKey }): Promise<{ status: SectionStatus }> {
         const user = await this.userService.getUser(discordId)
+        if (user) await this.validateCanRegisterTicket({ user, sectionKey })
 
-        if (user) {
-            const result = await this.validateCanRegisterTicket({ user, sectionKey })
-            if (result.response === 'error') return result
-        }
+        let currStatus =
+            (await this.statusService.getStatus(sectionKey)) ??
+            (await this.statusService.updateStatus(sectionKey))
 
-        let currStatus = await this.statusService.getStatus(sectionKey)
-
-        if (!currStatus) {
-            const result = await this.statusService.updateStatus(sectionKey)
-            if (result.response === 'error') return result
-            currStatus = result.payload.status
-        }
+        await this.userService.insertTicket({
+            newUser: user === null,
+            discordId,
+            sectionKey
+        })
 
         return {
-            response: 'success',
-            payload: {
-                status: currStatus
-            }
+            status: currStatus
         }
     }
 
     private async validateCanRegisterTicket({
         user,
         sectionKey
-    }: CanRegisterTicketProps): Promise<
-        ServiceResult<null, 'TICKET_LIMIT_REACHED' | 'TICKET_EXISTS'>
-    > {
+    }: CanRegisterTicketProps): Promise<void> {
         if (user) {
             if (user.tickets.length > 10)
-                return {
-                    response: 'error',
-                    payload: {
-                        code: 'TICKET_LIMIT_REACHED',
-                        limit: 10
-                    }
-                }
+                throw new ServiceError({
+                    code: 'TICKET_LIMIT_REACHED',
+                    limit: 10
+                })
 
             if (user.tickets.includes(sectionKey))
-                return {
-                    response: 'error',
-                    payload: {
-                        code: 'TICKET_EXISTS',
-                        sectionKey
-                    }
-                }
-        }
-
-        return {
-            response: 'success',
-            payload: null
+                throw new ServiceError({
+                    code: 'TICKET_EXISTS',
+                    sectionKey
+                })
         }
     }
 }

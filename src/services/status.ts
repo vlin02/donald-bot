@@ -1,5 +1,6 @@
 import { Collection } from 'mongodb'
-import { Section, SectionStatus } from '../models/section'
+import { ServiceError } from '../error'
+import { Section, SectionKeyRegex, SectionStatus } from '../models/section'
 import { SectionPage } from '../scrapers/pages/section'
 import { parseSectionStatus } from '../scrapers/parsers/section-status'
 import { ServiceResult } from '../types/service'
@@ -25,25 +26,23 @@ export default class SectionStatusService extends SectionStatusServiceBase {
         return sectionFields?.status
     }
 
-    async updateStatus(sectionKey: string): Promise<
-        ServiceResult<
-            {
-                status: SectionStatus
-            },
-            'SECTION_NOT_FOUND'
-        >
-    > {
+    async updateStatus(sectionKey: string): Promise<SectionStatus> {
+        if (!sectionKey.match(SectionKeyRegex)) {
+            throw new ServiceError({
+                code: 'SECTION_NOT_FOUND',
+                sectionKey
+            })
+        }
+
         const page = new SectionPage(sectionKey)
+
         const html = await page.retrieveHTML()
 
         if (!html.match(/expand all classes/i)) {
-            return {
-                response: 'error',
-                payload: {
-                    code: 'SECTION_NOT_FOUND',
-                    sectionKey
-                }
-            }
+            throw new ServiceError({
+                code: 'SECTION_NOT_FOUND',
+                sectionKey
+            })
         }
 
         const updatedStatus = parseSectionStatus(html)
@@ -53,18 +52,15 @@ export default class SectionStatusService extends SectionStatusServiceBase {
                 key: sectionKey
             },
             {
-                status: updatedStatus
+                $set: {
+                    status: updatedStatus
+                }
             },
             {
                 upsert: true
             }
         )
 
-        return {
-            response: 'success',
-            payload: {
-                status: updatedStatus
-            }
-        }
+        return updatedStatus
     }
 }

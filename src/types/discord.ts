@@ -1,6 +1,6 @@
 import { CommandInteraction, CacheType } from "discord.js"
 import { Database } from "../loaders/database"
-import { Stringable } from "../loaders/types"
+import { Stringable } from "./object"
 
 interface CommandInteractionHandlerProps {
     interaction: CommandInteraction<CacheType>

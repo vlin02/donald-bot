@@ -1,4 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
+import { ServiceError } from '../error'
 import { createTicketService } from '../services/ticket'
 import { CommandInteractionHandler } from '../types/discord'
 import { multiline } from '../utils/format'
@@ -15,23 +16,30 @@ const options = new SlashCommandBuilder()
 class AddTicketHandler extends CommandInteractionHandler {
     async handle() {
         const { user, options } = this.interaction
+        await this.interaction.deferReply({ ephemeral: true })
 
         const sectionKey = options.getString('section', true).toUpperCase()
         const ticketService = createTicketService(this.db)
 
-        const result = await ticketService.addTicket({ discordId: user.id, sectionKey })
+        const result = await ticketService
+            .addTicket({ discordId: user.id, sectionKey })
+            .catch(async (e) => {
+                if (e instanceof ServiceError) {
+                    const errorMessage = buildErrorMessage({ error: e.payload })
+                    await this.interaction.editReply(errorMessage)
+                    return null
+                }
 
-        if (result.response === 'error') {
-            const errorMessage = buildErrorMessage({ error: result.payload })
-            return await this.text(errorMessage)
-        }
+                throw e
+            })
 
-        const { status } = result.payload
+        if (!result) return 
+        const {status} = result
 
         const sectionStatusMessage = buildSectionStatusMessage({ key: sectionKey, status })
         const successMessage = multiline(':tickets: ticket added', sectionStatusMessage)
-        
-        await this.text(successMessage)
+
+        await this.interaction.editReply(successMessage)
     }
 }
 
