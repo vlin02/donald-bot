@@ -1,5 +1,5 @@
 import { Collection } from 'mongodb'
-import { ServiceError } from '../error'
+import { ServiceError } from './error'
 import { Section, SectionKeyRegex, SectionStatus } from '../models/section'
 import { SectionPage } from '../scrapers/pages/section'
 import { parseSectionStatus } from '../scrapers/parsers/section-status'

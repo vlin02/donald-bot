@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
-import { ServiceError } from '../error'
+import { ServiceError } from '../services/error'
 import { createTicketService } from '../services/ticket'
 import { CommandInteractionHandler } from '../types/discord'
 import { multiline } from '../utils/format'

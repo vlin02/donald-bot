@@ -1,5 +1,5 @@
 import { Collection } from 'mongodb'
-import { ServiceError } from '../error'
+import { ServiceError } from './error'
 import { Database } from '../loaders/database'
 import { SectionStatus } from '../models/section'
 import { User } from '../models/user'
