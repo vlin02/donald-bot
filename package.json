@@ -4,12 +4,8 @@
     "exports": "./dist/index.js",
     "license": "MIT",
     "scripts": {
-        "start": "node dist/index.js",
-        "deploy:guild": "node dist/deploy.js guild",
-        "deploy:global": "node dist/deploy.js global",
-        "dev": "nodemon dist/index.js --watch dist",
         "build": "tsc -p tsconfig.json",
-        "watch": "yarn build -w"
+        "build:watch": "yarn build -w"
     },
     "devDependencies": {
         "@types/mongodb": "^4.0.7",

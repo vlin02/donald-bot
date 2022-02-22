@@ -1,7 +1,7 @@
 import 'dotenv/config'
 
 import { REST } from '@discordjs/rest'
-import { commands } from './commands'
+import { commands } from './src/commands'
 import { Routes } from 'discord-api-types/v9'
 
 const { DISCORD_BOT_AUTH_TOKEN, DISCORD_BOT_CLIENT_ID, DISCORD_DEV_GUILD_ID } =

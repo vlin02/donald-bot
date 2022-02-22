@@ -1,6 +1,12 @@
 {
     "name": "@donald-bot/bot",
     "version": "1.0.0",
+    "scripts": {
+        "start": "node dist/index.js",
+        "start:watch": "nodemon dist/index.js --watch dist",
+        "deploy:guild": "node dist/deploy.js guild",
+        "deploy:global": "node dist/deploy.js global"
+    },
     "dependencies": {
         "@donald-bot/server": "1.0.0",
         "@discordjs/rest": "^0.3.0",

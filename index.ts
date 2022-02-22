@@ -1,7 +1,7 @@
 import 'dotenv/config'
 
 import { Client, Intents } from 'discord.js'
-import { commands } from './packages/bot/commands'
+import { commands } from './packages/bot/src/commands'
 import { connectToDatabase } from './server/loaders/database'
 import { logger } from './server/loaders/logger'
 

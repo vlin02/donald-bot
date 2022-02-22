@@ -1,6 +1,7 @@
 {
     "name": "@donald-bot/server",
     "version": "1.0.0",
+    "main": "dist/index.js",
     "dependencies": {
         "@donald-bot/scraper": "1.0.0",
         "mongodb": "^4.3.1",

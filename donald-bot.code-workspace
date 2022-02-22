@@ -4,13 +4,13 @@
             "path": "."
         },
         {
-            "path": "src/bot"
+            "path": "packages/bot"
         },
         {
-            "path": "src/scraper"
+            "path": "packages/scraper"
         },
         {
-            "path": "src/server"
+            "path": "packages/server"
         }
     ]
 }
