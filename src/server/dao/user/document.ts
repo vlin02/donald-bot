@@ -1,5 +1,4 @@
-
-export class User {
+export class UserDocument {
     discordId: string
     tickets: string[]
 }

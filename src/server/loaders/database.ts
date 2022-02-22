@@ -1,15 +1,15 @@
 import 'dotenv/config'
 
 import { Collection, MongoClient } from 'mongodb'
-import { Section } from '../models/section'
-import { User } from '../models/user'
+import { SectionDocument } from '../dao/section/document'
+import { UserDocument } from '../dao/user/document'
 import { logger } from './logger'
 
 const { MONGO_CONN_STRING, MONGO_DB_NAME } = process.env
 
 export interface Database {
-    sections: Collection<Section>
-    users: Collection<User>
+    sections: Collection<SectionDocument>
+    users: Collection<UserDocument>
 }
 
 export async function connectToDatabase(): Promise<Database> {
@@ -22,7 +22,9 @@ export async function connectToDatabase(): Promise<Database> {
     logger.info('using database named %s', mongoDb.databaseName)
 
     return {
-        sections: mongoDb.collection<Section>('sections'),
-        users: mongoDb.collection<User>('users')
+        sections: mongoDb.collection<SectionDocument>('sections'),
+        users: mongoDb.collection<UserDocument>('users')
     }
 }
+
+export const db = {} as Database

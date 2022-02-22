@@ -1,5 +1,5 @@
-import { getFromStatus } from '../../models/availability'
-import { SectionStatus } from '../../models/section'
+import { getFromStatus } from '../../../server/dao/availability'
+import { SectionStatus } from '../../server/dao/section.collection'
 import { multiline } from '../../utils/format'
 
 export interface SectionProps {

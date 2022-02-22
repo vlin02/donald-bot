@@ -1,4 +1,4 @@
-import { SectionStatus } from "./section"
+import { SectionStatus } from "../../scraper/ucla/models/status"
 
 export const ENROLL = {
     color: '3da560',

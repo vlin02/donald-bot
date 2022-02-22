@@ -1,0 +1,16 @@
+{
+    "folders": [
+        {
+            "path": "."
+        },
+        {
+            "path": "src/bot"
+        },
+        {
+            "path": "src/scraper"
+        },
+        {
+            "path": "src/server"
+        }
+    ]
+}

@@ -2,8 +2,8 @@ import 'dotenv/config'
 
 import { Client, Intents } from 'discord.js'
 import { commands } from './commands'
-import { connectToDatabase } from './loaders/database'
-import { logger } from './loaders/logger'
+import { connectToDatabase } from '../server/loaders/database'
+import { logger } from '../server/loaders/logger'
 
 const {DISCORD_BOT_AUTH_TOKEN} = process.env
 

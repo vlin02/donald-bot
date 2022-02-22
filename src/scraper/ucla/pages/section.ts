@@ -1,5 +1,7 @@
 import axios from 'axios'
-import { SectionKeyRegex } from '../../models/section'
+
+export const SectionKeyRegex =
+    /^(\d{2}[WSF1]) ([A-Z ]*) ([A-Z])?(\d*)([A-Z]*) \((\d*)\)$/
 
 type SearchParams = {
     term: string
