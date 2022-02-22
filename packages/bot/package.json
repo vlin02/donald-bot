@@ -1,0 +1,11 @@
+{
+    "name": "@donald-bot/bot",
+    "version": "1.0.0",
+    "dependencies": {
+        "@donald-bot/server": "1.0.0",
+        "@discordjs/rest": "^0.3.0",
+        "discord.js": "^13.6.0",
+        "dotenv": "^16.0.0",
+        "winston": "^3.6.0"
+    }
+}

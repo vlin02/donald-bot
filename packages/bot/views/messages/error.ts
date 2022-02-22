@@ -1,4 +1,4 @@
-import { ServiceError } from '../../../server/types/service'
+import { ServiceError } from '@donald-bot/server/types/service'
 
 export function resolveErrorMessage(error: ServiceError) {
     switch (error.code) {

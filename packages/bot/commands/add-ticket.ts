@@ -1,10 +1,10 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
-import { ServiceError } from '../../server/services/error'
-import TicketService from '../../server/services/ticket'
 import { CommandInteractionHandler } from './discord'
 import { multiline } from '../utils/format'
 import { buildErrorMessage } from '../views/messages/error'
 import { buildSectionStatusMessage } from '../views/messages/section'
+import { ServiceError } from '@donald-bot/server/services/error'
+import TicketService from '@donald-bot/server/services/ticket'
 
 const options = new SlashCommandBuilder()
     .setName('add-ticket')

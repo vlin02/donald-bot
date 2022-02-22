@@ -1,4 +1,4 @@
-import { connectToDatabase, db } from './loaders/database'
+import { connectToDatabase, db } from './database'
 ;(async () => {
     await connectToDatabase()
     

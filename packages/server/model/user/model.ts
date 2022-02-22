@@ -70,8 +70,4 @@ export class UserModel extends UserSchema {
         await db.users.insertOne(userDoc)
         return this.fromDocument(userDoc)
     }
-
-    static async getOrCreate(discordId: string) {
-        return (await this.get(discordId)) ?? this.create(discordId)
-    }
 }
