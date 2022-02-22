@@ -1,9 +1,9 @@
 import { ServiceError } from './error'
-import { UserCollection } from '../dao/user/collection'
 import { SectionStatus } from '../../scraper/ucla/models/status'
-import { SectionCollection } from '../dao/section/collection'
 import { SectionKeyRegex, SectionPage } from '../../scraper/ucla/pages/section'
 import { parseSectionStatus } from '../../scraper/ucla/parsers/section-status'
+import { UserModel } from '../model/user/model'
+import { SectionModel } from '../model/section/model'
 
 export interface AddTicketProps {
     discordId: string
@@ -11,16 +11,15 @@ export interface AddTicketProps {
 }
 
 export default class TicketService {
-    users = new UserCollection()
-    sections = new SectionCollection()
 
     public async addTicket({
         discordId,
         sectionKey
     }): Promise<SectionStatus> {
-        const user = await this.users.getUser(discordId)
+        let user = await UserModel.get(discordId)
 
-        if (user.tickets.length > 10)
+        if (user) {
+            if (user.tickets.length > 10)
             throw new ServiceError({
                 code: 'TICKET_LIMIT_REACHED',
                 limit: 10
@@ -31,6 +30,7 @@ export default class TicketService {
                 code: 'TICKET_EXISTS',
                 sectionKey
             })
+        }
             
         if (!sectionKey.match(SectionKeyRegex)) {
             throw new ServiceError({
@@ -39,7 +39,7 @@ export default class TicketService {
             })
         }
         
-        let section = await this.sections.getSection(sectionKey)
+        let section = await SectionModel.get(sectionKey)
 
         if (!section) {
             const page = new SectionPage(sectionKey)
@@ -54,10 +54,14 @@ export default class TicketService {
 
             const retrievedStatus = parseSectionStatus(html)
 
-            section = await this.sections.createSection({
+            section = await SectionModel.create({
                 key: sectionKey,
                 status: retrievedStatus
             })
+        }
+
+        if (!user) {
+            user = await UserModel.create(discordId)
         }
 
         await user.insertTicket(sectionKey)
