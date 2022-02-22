@@ -1,14 +1,14 @@
 import 'dotenv/config'
 
 import { Client, Intents } from 'discord.js'
-import { commands } from './commands'
-import { connectToDatabase } from '../server/loaders/database'
-import { logger } from '../server/loaders/logger'
+import { commands } from './bot/commands'
+import { connectToDatabase } from './server/loaders/database'
+import { logger } from './server/loaders/logger'
 
 const {DISCORD_BOT_AUTH_TOKEN} = process.env
 
 ;(async () => {
-    const db = await connectToDatabase()
+    await connectToDatabase()
 
     logger.info('connected to database')
 
@@ -36,7 +36,7 @@ const {DISCORD_BOT_AUTH_TOKEN} = process.env
 
             logger.info('handling command %s', commandName)
             
-            const handler = new currentCmd.handler({ interaction, db })
+            const handler = new currentCmd.handler(interaction)
             await handler.handle()
         }
     })

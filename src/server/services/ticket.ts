@@ -2,8 +2,8 @@ import { ServiceError } from './error'
 import { UserCollection } from '../dao/user/collection'
 import { SectionStatus } from '../../scraper/ucla/models/status'
 import { SectionCollection } from '../dao/section/collection'
-import { SectionKeyRegex, SectionPage } from '@/scraper/ucla/pages/section'
-import { parseSectionStatus } from '@/scraper/ucla/parsers/section-status'
+import { SectionKeyRegex, SectionPage } from '../../scraper/ucla/pages/section'
+import { parseSectionStatus } from '../../scraper/ucla/parsers/section-status'
 
 export interface AddTicketProps {
     discordId: string

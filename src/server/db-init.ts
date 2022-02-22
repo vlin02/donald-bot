@@ -1,6 +1,6 @@
-import { connectToDatabase } from './loaders/database'
+import { connectToDatabase, db } from './loaders/database'
 ;(async () => {
-    const db = await connectToDatabase()
+    await connectToDatabase()
     
     await Promise.all([
         db.users.createIndex(['discordId'], { unique: true }),

@@ -12,7 +12,9 @@ export interface Database {
     users: Collection<UserDocument>
 }
 
-export async function connectToDatabase(): Promise<Database> {
+export let db = {} as Database
+
+export async function connectToDatabase(): Promise<void> {
     const client = new MongoClient(MONGO_CONN_STRING)
 
     await client.connect()
@@ -21,10 +23,8 @@ export async function connectToDatabase(): Promise<Database> {
 
     logger.info('using database named %s', mongoDb.databaseName)
 
-    return {
+    db = {
         sections: mongoDb.collection<SectionDocument>('sections'),
         users: mongoDb.collection<UserDocument>('users')
     }
 }
-
-export const db = {} as Database
