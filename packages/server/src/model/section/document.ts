@@ -1,6 +1,6 @@
-import { SectionStatus } from "../../../scraper/ucla/models/status"
+import type { SectionStatus } from "@donald-bot/scraper"
 
-export class SectionSchema {
+export interface SectionSchema {
     key: string
     status: SectionStatus
 }

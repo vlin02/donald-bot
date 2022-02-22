@@ -15,7 +15,7 @@ export type ServiceErrorPayload =
 export class ServiceError extends Error {
     payload: ServiceErrorPayload
 
-    constructor(payload) {
+    constructor(payload: any) {
         super("A service related error occured")
         this.payload = payload
     }

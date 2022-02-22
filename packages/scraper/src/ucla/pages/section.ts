@@ -24,6 +24,8 @@ export class SectionPage {
 
         const [_match, term, subjectArea, catalogPre, catalogBase, catalogExt, classNumber] = result
 
+        if (!(term && subjectArea && catalogBase && classNumber)) throw new Error('regex failed')
+
         const catalogNumber =
             catalogBase.padStart(4, '0') + (catalogExt ?? '') + (catalogPre ? ' ' + catalogPre : '')
 

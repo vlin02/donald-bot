@@ -3,8 +3,8 @@ import { CommandInteractionHandler } from './discord'
 import { multiline } from '../utils/format'
 import { buildErrorMessage } from '../views/messages/error'
 import { buildSectionStatusMessage } from '../views/messages/section'
-import { ServiceError } from '@donald-bot/server/services/error'
-import TicketService from '@donald-bot/server/services/ticket'
+import { ServiceError  } from '@donald-bot/server'
+import TicketService from '@donald-bot/server/src/services/ticket'
 
 const options = new SlashCommandBuilder()
     .setName('add-ticket')
@@ -13,7 +13,7 @@ const options = new SlashCommandBuilder()
         option.setName('section').setDescription('section to track').setRequired(true)
     )
 
-class AddTicketHandler extends CommandInteractionHandler {
+export class AddTicketHandler extends CommandInteractionHandler {
     async handle() {
         const { user, options } = this.interaction
         await this.interaction.deferReply({ ephemeral: true })

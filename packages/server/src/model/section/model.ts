@@ -1,10 +1,14 @@
+import type { SectionStatus } from '@donald-bot/scraper'
 import { db } from '../../loaders/database'
-import { SectionSchema } from './document'
-import { SectionStatus } from '@/scraper/ucla/models/status'
+import type { SectionSchema } from './document'
 
-export class SectionModel extends SectionSchema {
-    constructor(document: SectionSchema) {
-        Object.assign(super(), document)
+export class SectionModel implements SectionSchema {
+    readonly key: string
+    readonly status: SectionStatus
+
+    constructor(doc: SectionSchema) {
+        this.key = doc.key
+        this.status = doc.status
     }
 
     async updateStatus(status: SectionStatus): Promise<void> {

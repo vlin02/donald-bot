@@ -1,4 +1,4 @@
-import { SectionStatus } from '../../../scraper/ucla/models/status'
+import type { SectionStatus } from '@donald-bot/scraper'
 import { getFromStatus } from '../../models/availability'
 import { multiline } from '../../utils/format'
 

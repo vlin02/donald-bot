@@ -1,4 +1,4 @@
-import { SectionStatus } from '../models/status'
+import type { SectionStatus } from "../models/status"
 
 export function parseSectionStatus(html: string): SectionStatus {
     let result: RegExpMatchArray | null

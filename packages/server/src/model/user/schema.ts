@@ -1,4 +1,4 @@
-export class UserSchema {
+export interface UserSchema {
     discordId: string
     tickets: string[]
 }

@@ -1,7 +1,7 @@
 {
     "references": [
-        { "path": "./packages/bot/src" },
-        { "path": "./packages/scraper/src" },
-        { "path": "./packages/server/src" }
+        { "path": "./packages/bot" },
+        { "path": "./packages/scraper" },
+        { "path": "./packages/server" }
     ]
 }

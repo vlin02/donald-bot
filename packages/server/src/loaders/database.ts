@@ -1,8 +1,8 @@
 import 'dotenv/config'
 
 import { Collection, MongoClient } from 'mongodb'
-import { SectionSchema } from '../model/section/document'
-import { UserSchema } from '../model/user/schema'
+import type { SectionSchema } from '../model/section/document'
+import type { UserSchema } from '../model/user/schema'
 import { logger } from './logger'
 
 const { MONGO_CONN_STRING, MONGO_DB_NAME } = process.env

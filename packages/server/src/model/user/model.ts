@@ -1,9 +1,17 @@
 import { db } from '../../loaders/database'
-import { SectionSchema } from '../section/document'
+import type { SectionSchema } from '../section/document'
 import { SectionModel } from '../section/model'
-import { UserSchema } from './schema'
+import type { UserSchema } from './schema'
 
-export class UserModel extends UserSchema {
+export class UserModel implements UserSchema {
+    readonly discordId: string
+    readonly tickets: string[]
+
+    constructor(doc: UserSchema) {
+        this.discordId = doc.discordId
+        this.tickets = doc.tickets
+    }
+
     async insertTicket(sectionKey: string) {
         await db.users.updateOne(
             {
@@ -43,14 +51,8 @@ export class UserModel extends UserSchema {
             ])
             .toArray()
 
-        const sections = aggregateResult[0].tickets as SectionSchema[]
+        const sections = aggregateResult[0]?.tickets as SectionSchema[]
         return sections.map((section) => new SectionModel(section))
-    }
-
-    private static fromDocument(doc: UserSchema) {
-        const user = new UserModel()
-        Object.assign(user, doc)
-        return user
     }
 
     static async get(discordId: string) {
@@ -58,7 +60,7 @@ export class UserModel extends UserSchema {
             discordId: discordId
         })
 
-        return userDoc && this.fromDocument(userDoc)
+        return userDoc && new UserModel(userDoc)
     }
 
     static async create(discordId: string) {
@@ -68,6 +70,6 @@ export class UserModel extends UserSchema {
         }
 
         await db.users.insertOne(userDoc)
-        return this.fromDocument(userDoc)
+        return new UserModel(userDoc)
     }
 }
