@@ -6,7 +6,8 @@
     "scripts": {
         "build": "lerna run build",
         "build:watch": "lerna run build:watch --parallel",
-        "start": "lerna run start --parallel"
+        "start": "lerna run start --parallel",
+        "start:watch": "lerna run start:watch --parallel"
     },
     "devDependencies": {
         "@types/express": "^4.17.13",
