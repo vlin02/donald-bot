@@ -9,9 +9,10 @@ env:
     AWS_REGION: us-west-2
     ECR_REPOSITORY: donald-bot
     ECS_CLUSTER: ducky-pool
-    ECS_SERVICE: ducky-service
-    ECS_TASK_DEFINITION: .aws/ducky-app.json
-    CONTAINER_NAME: ducky-bot
+    ECS_SERVICE: ducky-bot-service
+    ECS_TASK_DEFINITION: .aws/ducky-bot.json
+    CLIENT_CONTAINER: ducky-client
+    SERVER_CONTAINER: ducky-server
 
 jobs:
     deploy-bot:
@@ -34,28 +35,39 @@ jobs:
               id: login-ecr
               uses: aws-actions/amazon-ecr-login@v1
 
-            - name: Build and push image to Amazon ECR
+            - name: Build and push new images to Amazon ECR
               id: build-image
               env:
-                  ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-                  IMAGE_TAG: ${{ github.sha }}
+                  CLIENT_TAG: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}/client:${{ github.sha }}
+                  SERVER_TAG: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}/server:${{ github.sha }}
               run: |
-                  docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-                  docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-                  echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+                  docker build --target client -t $CLIENT_TAG .
+                  docker build --target server -t $SERVER_TAG .
+                  docker push $CLIENT_TAG
+                  docker push $SERVER_TAG
+                  echo "::set-output name=client_tag::$CLIENT_TAG"
+                  echo "::set-output name=server_tag::$SERVER_TAG"
 
-            - name: Update Amazon ECS task definition
-              id: update-task-def
+            - name: Update client container image
+              id: update-client-container
               uses: aws-actions/amazon-ecs-render-task-definition@v1
               with:
-                  task-definition: ${{ env.ECS_TASK_DEFINITION }}
-                  container-name: ${{ env.CONTAINER_NAME }}
-                  image: ${{ steps.build-image.outputs.image }}
+                task-definition: ${{ env.ECS_TASK_DEFINITION }}
+                container-name: ${{ env.CLIENT_CONTAINER }}
+                image: ${{ steps.build-image.outputs.client_tag}}
+
+            - name: Update server container image
+              id: update-server-container
+              uses: aws-actions/amazon-ecs-render-task-definition@v1
+              with:
+                task-definition: ${{ steps.update-client-container.outputs.task-definition }}
+                container-name: ${{ env.SERVER_CONTAINER }}
+                image: ${{ steps.build-image.outputs.server_tag}}
 
             - name: Deploy Amazon ECS task definition
               uses: aws-actions/amazon-ecs-deploy-task-definition@v1
               with:
-                  task-definition: ${{ steps.update-task-def.outputs.task-definition }}
+                  task-definition: ${{ steps.update-server-container.outputs.task-definition }}
                   service: ${{ env.ECS_SERVICE }}
                   cluster: ${{ env.ECS_CLUSTER }}
                   wait-for-service-stability: true

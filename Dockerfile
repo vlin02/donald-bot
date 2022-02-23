@@ -15,12 +15,12 @@ COPY . .
 
 RUN yarn build
 
-FROM base AS server
-
-WORKDIR /usr/src/app/packages/server/
-CMD yarn start
-
 FROM base AS client
 
 WORKDIR /usr/src/app/packages/bot/
+CMD yarn start
+
+FROM base AS server
+
+WORKDIR /usr/src/app/packages/server/
 CMD yarn start
