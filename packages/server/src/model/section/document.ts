@@ -1,4 +1,4 @@
-import type { SectionStatus } from "@donald-bot/scraper"
+import type { SectionStatus } from '@donald-bot/scraper'
 
 export interface SectionSchema {
     key: string

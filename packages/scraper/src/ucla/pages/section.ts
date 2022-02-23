@@ -22,12 +22,23 @@ export class SectionPage {
 
         if (!result) throw new Error('regex failed')
 
-        const [_match, term, subjectArea, catalogPre, catalogBase, catalogExt, classNumber] = result
+        const [
+            _match,
+            term,
+            subjectArea,
+            catalogPre,
+            catalogBase,
+            catalogExt,
+            classNumber
+        ] = result
 
-        if (!(term && subjectArea && catalogBase && classNumber)) throw new Error('regex failed')
+        if (!(term && subjectArea && catalogBase && classNumber))
+            throw new Error('regex failed')
 
         const catalogNumber =
-            catalogBase.padStart(4, '0') + (catalogExt ?? '') + (catalogPre ? ' ' + catalogPre : '')
+            catalogBase.padStart(4, '0') +
+            (catalogExt ?? '') +
+            (catalogPre ? ' ' + catalogPre : '')
 
         const paddedClassNumber = ' ' + classNumber.padStart(3, '0')
 

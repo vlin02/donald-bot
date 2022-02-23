@@ -1,6 +1,6 @@
-import type { SectionStatus } from '@donald-bot/scraper'
+import { SectionStatus } from '@donald-bot/scraper'
 import { db } from '../../loaders/database'
-import type { SectionSchema } from './document'
+import { SectionSchema } from './document'
 
 export class SectionModel implements SectionSchema {
     readonly key: string

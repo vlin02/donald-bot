@@ -1,1 +1,1 @@
-export * from "./ucla"
+export * from './ucla'

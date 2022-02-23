@@ -3,7 +3,7 @@ import { logger } from './loaders/logger'
 import app from './loaders/express'
 import { connectToDatabase } from './loaders/database'
 
-const {PORT} = process.env
+const { PORT } = process.env
 
 async function startServer() {
     await connectToDatabase()

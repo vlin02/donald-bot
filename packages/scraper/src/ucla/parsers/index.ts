@@ -1,1 +1,1 @@
-export * from "./section-status"
+export * from './section-status'

@@ -1,5 +1,3 @@
-import { addTicketCommand } from "./add-ticket";
+import { addTicketCommand } from './add-ticket'
 
-export const commands = [
-    addTicketCommand
-]
+export const commands = [addTicketCommand]

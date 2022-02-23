@@ -1,22 +1,22 @@
 {
-  "name": "@donald-bot/bot",
-  "version": "1.0.0",
-  "main": "dist/index.js",
-  "scripts": {
-    "start": "node dist/index.js",
-    "start:watch": "nodemon dist/index.js --watch dist",
-    "build": "tsc",
-    "build:watch": "tsc -w",
-    "deploy:guild": "node dist/deploy.js guild",
-    "deploy:global": "node dist/deploy.js global"
-  },
-  "dependencies": {
-    "@discordjs/builders": "^0.12.0",
-    "@discordjs/rest": "^0.3.0",
-    "@donald-bot/scraper": "1.0.0",
-    "axios": "^0.26.0",
-    "discord.js": "^13.6.0",
-    "dotenv": "^16.0.0",
-    "winston": "^3.6.0"
-  }
+    "name": "@donald-bot/bot",
+    "version": "1.0.0",
+    "main": "dist/index.js",
+    "scripts": {
+        "start": "node dist/index.js",
+        "start:watch": "nodemon dist/index.js --watch dist",
+        "build": "tsc",
+        "build:watch": "tsc -w",
+        "deploy:guild": "node dist/deploy.js guild",
+        "deploy:global": "node dist/deploy.js global"
+    },
+    "dependencies": {
+        "@discordjs/builders": "^0.12.0",
+        "@discordjs/rest": "^0.3.0",
+        "@donald-bot/scraper": "1.0.0",
+        "axios": "^0.26.0",
+        "discord.js": "^13.6.0",
+        "dotenv": "^16.0.0",
+        "winston": "^3.6.0"
+    }
 }

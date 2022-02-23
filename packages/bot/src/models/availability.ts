@@ -1,4 +1,4 @@
-import type { SectionStatus } from "@donald-bot/scraper"
+import type { SectionStatus } from '@donald-bot/scraper'
 
 export const ENROLL = {
     color: '3da560',

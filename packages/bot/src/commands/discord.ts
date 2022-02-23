@@ -9,6 +9,9 @@ export class CommandInteractionHandler {
     }
 
     text(message: Stringable) {
-        return this.interaction.reply({ content: String(message), ephemeral: true })
+        return this.interaction.reply({
+            content: String(message),
+            ephemeral: true
+        })
     }
 }

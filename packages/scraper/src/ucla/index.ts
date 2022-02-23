@@ -1,3 +1,3 @@
-export * from "./pages"
-export * from "./parsers"
-export * from "./models"
+export * from './pages'
+export * from './parsers'
+export * from './models'
