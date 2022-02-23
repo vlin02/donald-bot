@@ -1,49 +1,59 @@
-import { SlashCommandBuilder } from '@discordjs/builders'
-import { CommandInteractionHandler } from './discord'
-import { multiline } from '../utils/format'
-import { buildErrorMessage } from '../views/messages/error'
-import { buildSectionStatusMessage } from '../views/messages/section'
-import { ServiceError  } from '@donald-bot/server'
-import TicketService from '@donald-bot/server/src/services/ticket'
+import { SlashCommandBuilder } from "@discordjs/builders"
+import { CommandInteractionHandler } from "./discord"
+import { multiline } from "../utils/format"
+import { buildErrorMessage } from "../views/messages/error"
+import { buildSectionStatusMessage } from "../views/messages/section"
+import api from "../api"
+import axios from "axios"
+import { logger } from "../loaders/logger"
 
 const options = new SlashCommandBuilder()
-    .setName('add-ticket')
-    .setDescription('Add a new tracking ticket')
-    .addStringOption((option) =>
-        option.setName('section').setDescription('section to track').setRequired(true)
-    )
+  .setName("add-ticket")
+  .setDescription("Add a new tracking ticket")
+  .addStringOption((option) =>
+    option
+      .setName("section")
+      .setDescription("section to track")
+      .setRequired(true)
+  )
 
 export class AddTicketHandler extends CommandInteractionHandler {
-    async handle() {
-        const { user, options } = this.interaction
-        await this.interaction.deferReply({ ephemeral: true })
+  async handle() {
+    const { user, options } = this.interaction
+    await this.interaction.deferReply({ ephemeral: true })
 
-        const sectionKey = options.getString('section', true).toUpperCase()
-        const ticketService = new TicketService()
+    const sectionKey = options.getString("section", true).toUpperCase()
 
-        const status = await ticketService
-            .addTicket({ discordId: user.id, sectionKey })
-            .catch(async (e) => {
-                if (e instanceof ServiceError) {
-                    const errorMessage = buildErrorMessage({ error: e.payload })
-                    await this.interaction.editReply(errorMessage)
-                    return null
-                }
+    let message = ""
+    try {
+      const {
+        data: { status }
+      } = await api.post(`/user/${user.id}/add-ticket`, {
+        sectionKey
+      })
 
-                throw e
-            })
+      const sectionStatusMessage = buildSectionStatusMessage({
+        key: sectionKey,
+        status
+      })
+      
+      message = multiline(
+        ":tickets: ticket added",
+        sectionStatusMessage
+      )
 
-        if (!status) return 
-
-        const sectionStatusMessage = buildSectionStatusMessage({ key: sectionKey, status })
-        const successMessage = multiline(':tickets: ticket added', sectionStatusMessage)
-
-        await this.interaction.editReply(successMessage)
+    } catch (error) {
+      if (!axios.isAxiosError(error)) throw error
+      console.log(error)
+      message = buildErrorMessage({ error: error?.response?.data })
     }
+
+    await this.interaction.editReply(message)
+  }
 }
 
 export const addTicketCommand = {
-    name: 'add-ticket',
-    options,
-    handler: AddTicketHandler
+  name: "add-ticket",
+  options,
+  handler: AddTicketHandler
 }
