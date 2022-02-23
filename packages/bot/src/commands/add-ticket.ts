@@ -44,7 +44,6 @@ export class AddTicketHandler extends CommandInteractionHandler {
 
     } catch (error) {
       if (!axios.isAxiosError(error)) throw error
-      console.log(error)
       message = buildErrorMessage({ error: error?.response?.data })
     }
 
