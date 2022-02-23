@@ -1,8 +1,11 @@
 interface BotEnv {
-    STATUS_UPDATE_INTERVAL: string
+    NODE_ENV: string
+    PORT: string
+    
     MONGO_CONN_STRING: string
     MONGO_DB_NAME: string
-    NODE_ENV: string
+
+    STATUS_UPDATE_INTERVAL: string
     LOG_LEVEL: string
 }
 

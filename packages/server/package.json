@@ -2,13 +2,18 @@
     "name": "@donald-bot/server",
     "version": "1.0.0",
     "main": "./dist/index.js",
+    "license": "MIT",
     "scripts": {
-        "build": "tsc"
+        "start": "node ./dist/index.js",
+        "start:watch": "nodemon ./dist/index.js --watch dist",
+        "build": "tsc",
+        "build:watch": "tsc -w"
     },
     "dependencies": {
         "@donald-bot/scraper": "1.0.0",
-        "mongodb": "^4.3.1",
         "dotenv": "^16.0.0",
+        "express": "^4.17.3",
+        "mongodb": "^4.3.1",
         "winston": "^3.6.0"
     }
 }
